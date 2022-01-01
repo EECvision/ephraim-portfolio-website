@@ -8,14 +8,16 @@ import { toSentenceCase } from '../utils';
 import projectData from '../../state/DATA.json';
 import cx from './Landing.module.css';
 import { useHistory } from 'react-router-dom';
+import { setCurrentPage } from '../../state/page/page.actions';
 
-const Landing = ({ activeProject, view }) => {
+const Landing = ({ activeProject, view, setCurrentPage }) => {
   const [prevId, setPrevId] = useState(projectData[activeProject].id)
   const [dir, setDir] = useState('down');
   const { projectTitle, projectDescription, caseStudy, mainColor, textColor } = projectData[activeProject]
   const history = useHistory();
 
   const handlePageClick = page => {
+    setCurrentPage("home")
     history.push(`/${page}`)
   }
 
@@ -42,7 +44,7 @@ const Landing = ({ activeProject, view }) => {
   return (
     <div className={cx.landing}>
       <nav className={cx.nav}>
-        <div onClick={() => handlePageClick('/')}>Ephraim Sopuru</div>
+        <div onClick={() => handlePageClick('/home')}>Ephraim Sopuru</div>
         <div onClick={() => handlePageClick('about')}>About</div>
       </nav>
 
@@ -74,4 +76,8 @@ const mapStateToProps = createStructuredSelector({
   activeProject: selectActiveProject
 })
 
-export default connect(mapStateToProps)(Landing)
+const mapDispatchToProps = dispatch => ({
+  setCurrentPage: page => dispatch(setCurrentPage(page))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Landing)

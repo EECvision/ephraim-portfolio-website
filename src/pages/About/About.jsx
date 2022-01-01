@@ -1,12 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useRouteMatch } from 'react-router-dom';
+import { createStructuredSelector } from 'reselect';
+import { selectActiveProject, selectCurrentPage } from '../../state/page/page.selector';
 import cx from './About.module.css';
 
-const About = () => {
+const About = ({ activeProject, currentPage }) => {
   const [view, setView] = useState(false);
   const domMountRef = useRef(true);
   const history = useHistory()
+  const match = useRouteMatch()
+
   useEffect(() => {
     if (domMountRef.current === true) {
       setView(true)
@@ -16,7 +20,11 @@ const About = () => {
 
   const handleBack = () => {
     setTimeout(() => {
-      history.push('/home')
+      if (currentPage === "home") {
+        history.push('/home')
+      } else {
+        history.push(`/project/${activeProject}`)
+      }
     }, 1500);
     setView(false)
   }
@@ -47,4 +55,9 @@ const About = () => {
   )
 }
 
-export default About;
+const mapStateToProps = createStructuredSelector({
+  activeProject: selectActiveProject,
+  currentPage: selectCurrentPage
+})
+
+export default connect(mapStateToProps)(About);

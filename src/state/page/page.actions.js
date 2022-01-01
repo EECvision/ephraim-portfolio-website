@@ -1,5 +1,10 @@
 import pageActionTypes from "./page.types";
 
+export const setCurrentPage = page => ({
+  type: pageActionTypes.SET_CURRENT_PAGE,
+  payload: page
+})
+
 export const setActiveProject = projectId => ({
   type: pageActionTypes.SET_ACTIVE_PROJECT,
   payload: projectId

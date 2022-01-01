@@ -8,8 +8,9 @@ import projectData from '../../state/DATA.json';
 import { useHistory } from "react-router-dom";
 import { getProject } from "./Project_Script";
 import { useParams } from "react-router-dom";
+import { setCurrentPage } from "../../state/page/page.actions";
 
-const Project = () => {
+const Project = ({ setCurrentPage }) => {
   const params = useParams();
   const { projectTitle, mainColor } = projectData[params.id]
   const [state, setState] = useState({
@@ -33,6 +34,7 @@ const Project = () => {
   const cardRef = useRef(null);
   const titleRef = useRef(null);
   const containerRef = useRef(null);
+  const history = useHistory()
 
   const handleSetState = (obj) => {
     setState(state => ({ ...state, ...obj }))
@@ -70,10 +72,9 @@ const Project = () => {
     handleSetState({ contentId: 0 })
   }
 
-  const history = useHistory()
-
   const handlePageClick = (page) => {
     handleSetState({ back: true })
+    setCurrentPage(page === "home" ? "home" : "project")
     setTimeout(() => {
       history.push(`/${page}`)
     }, 2000);
@@ -107,15 +108,15 @@ const Project = () => {
       translateX(${(getScroll() / 100) * 320}px) 
       translateY(${-((scroll / 100) * 100)}px)
     `
-    document.getElementById("contentNav").style.opacity = (getScroll()/100) * 1
+    document.getElementById("contentNav").style.opacity = (getScroll() / 100) * 1
   }, [scroll])
 
   useEffect(() => {
     let id = calcView(projectContents, -100)
     if (activeContentId !== id) handleSetState({ activeContentId: id })
-    if(projectContents["1"] > 200 ){ 
+    if (projectContents["1"] > 200) {
       handleSetState({ activeContentId: 0 })
-      handleSetState({contentId: 0})
+      handleSetState({ contentId: 0 })
     }
   }, [projectContents])
 
@@ -179,5 +180,8 @@ const Project = () => {
   )
 }
 
+const mapDispatchToProps = dispatch => ({
+  setCurrentPage: page => dispatch(setCurrentPage(page))
+})
 
-export default Project
+export default connect(null, mapDispatchToProps)(Project)
