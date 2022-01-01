@@ -26,3 +26,8 @@ export const selectWelcomeScreen = createSelector(
   [selectPage],
   page => page.welcomeScreen
 )
+
+export const selectMount = createSelector(
+  [selectPage],
+  page => page.mount
+)

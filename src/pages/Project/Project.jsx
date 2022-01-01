@@ -74,10 +74,10 @@ const Project = ({ setCurrentPage }) => {
 
   const handlePageClick = (page) => {
     handleSetState({ back: true })
-    setCurrentPage(page === "home" ? "home" : "project")
+    setCurrentPage(page === "about" ? "project" : "home")
     setTimeout(() => {
       history.push(`/${page}`)
-    }, 2000);
+    }, page === "about" ? 1500 : 0);
   }
 
   useEffect(() => {
@@ -131,7 +131,7 @@ const Project = ({ setCurrentPage }) => {
     <div ref={containerRef} onScroll={handlePageScroll} className={`${cx.container}`}>
       <div id="swipe" style={{ background: mainColor }} className={`${cx.swiper} ${back && cx.swipeOpen} ${close && cx.swipeClose}`}></div>
       <nav className={cx.nav}>
-        <div onClick={() => handlePageClick('home')}>Back</div>
+        <div onClick={() => handlePageClick('')}>Back</div>
         <div onClick={() => handlePageClick('about')}>About</div>
       </nav>
 

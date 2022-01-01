@@ -2,14 +2,14 @@ import React, { useEffect, useRef, useState } from 'react'
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import Landing from '../../components/Landing/Landing';
-import { setActiveProject, setInview, setView, setWelcomeScreen } from '../../state/page/page.actions';
-import { selectActiveProject, selectInview, selectView, selectWelcomeScreen } from '../../state/page/page.selector';
+import { setActiveProject, setMount, setView, setWelcomeScreen } from '../../state/page/page.actions';
+import { selectActiveProject, selectInview, selectMount, selectView, selectWelcomeScreen } from '../../state/page/page.selector';
 import cx from './Welcome.module.css';
 import projectData from '../../state/DATA.json';
 import { useHistory } from 'react-router-dom';
 import { calcView } from "../../components/utils";
 
-const Welcome = ({ setActiveProject, activeProject, inview, setInview, view, welcomeScreen, setWelcomeScreen }) => {
+const Welcome = ({ setActiveProject, activeProject, view, inview, animate, setWelcomeScreen, mount, setMount }) => {
 
   const [state, setState] = useState({
     build: false,
@@ -39,13 +39,13 @@ const Welcome = ({ setActiveProject, activeProject, inview, setInview, view, wel
 
   useEffect(() => {
     handleSetState({ build: true })
-    // window.history.pushState(null, "next page", 'home')
     try {
       homeWrapperRef.current
         .onanimationend = e => {
           if (e.animationName === "Welcome_build__350H9") {
             handleSetState({ show: true })
-            setInview(1)
+          } else if (e.animationName === "Welcome_view__10PGv") {
+            setWelcomeScreen(false)
           }
         }
       projectWindowRef.current
@@ -85,38 +85,48 @@ const Welcome = ({ setActiveProject, activeProject, inview, setInview, view, wel
   }, [currentProject])
 
   useEffect(() => {
-    try {
       document.getElementById(`project${inview}`).scrollIntoView()
-    } catch (error) { }
   }, [inview])
 
+  useEffect(() => {
+    if (!animate) {
+      handleSetState({ build: false, show: true })
+      setMount()
+    }
+  }, [])
+  useEffect(() => {
+    document.getElementById(`project${activeProject}`).scrollIntoView()
+  }, [])
 
   return (
     <div className={cx.container}>
-      
-      <div className={cx.homepage}>
-        <div className={cx.homeContentWrapper}>
-          <div className={cx.nameContainer}>
-            <p className={`${cx.name} ${build && cx.slipIn}`}>Ephraim Sopuru</p>
-            <p className={`${cx.role} ${build && cx.slipIn}`}>Interaction Designer</p>
-          </div>
+      {
+        animate && (
+          <div className={cx.homepage}>
+            <div className={cx.homeContentWrapper}>
+              <div className={cx.nameContainer}>
+                <p className={`${cx.name} ${build && cx.slipIn}`}>Ephraim Sopuru</p>
+                <p className={`${cx.role} ${build && cx.slipIn}`}>Interaction Designer</p>
+              </div>
 
-          <div className={`${cx.description} ${build && cx.slipIn}`}>
-            <p>The kind of designer you do love to work with</p>
+              <div className={`${cx.description} ${build && cx.slipIn}`}>
+                <p>The kind of designer you do love to work with</p>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        )
+      }
 
       <div ref={homeWrapperRef}
         style={{ background: background }}
-        className={` ${cx.homeWrapper} ${build && cx.build} ${show && cx.view}`}
+        className={` ${cx.homeWrapper} ${build && cx.build} ${show && cx.view} ${!animate && cx.viewStable}`}
       >
         <Landing />
       </div>
 
       <div
         ref={projectWindowRef}
-        className={`${cx.projectWindow} ${show && cx.tilt} ${view && cx.center}`}>
+        className={`${cx.projectWindow} ${show && cx.tilt} ${!animate && mount && cx.tiltNormal} ${view && cx.center}`}>
         <div className={` ${cx.projectWrapper} ${build && cx.slideIn}`} >
           {
             (Array(4).fill(null)).map((_, idx) => (
@@ -143,14 +153,15 @@ const mapStateToProps = createStructuredSelector({
   activeProject: selectActiveProject,
   inview: selectInview,
   view: selectView,
-  welcomeScreen: selectWelcomeScreen
+  animate: selectWelcomeScreen,
+  mount: selectMount
 })
 
 const mapDispatchToProps = dispatch => ({
   setActiveProject: projectId => dispatch(setActiveProject(projectId)),
-  setInview: projectId => dispatch(setInview(projectId)),
   setView: state => dispatch(setView(state)),
-  setWelcomeScreen: state => dispatch(setWelcomeScreen(state))
+  setWelcomeScreen: state => dispatch(setWelcomeScreen(state)),
+  setMount: () => dispatch(setMount())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Welcome)

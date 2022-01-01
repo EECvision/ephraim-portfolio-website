@@ -24,3 +24,7 @@ export const setWelcomeScreen = state => ({
   type: pageActionTypes.SET_WELCOME_SCREEN,
   payload: state
 })
+
+export const setMount = () => ({
+  type: pageActionTypes.SET_MOUNT
+})

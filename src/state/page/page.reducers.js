@@ -5,7 +5,8 @@ const INITIAL_STATE = {
   activeProject: '1',
   inview: 1,
   view: false,
-  welcomeScreen: true
+  welcomeScreen: true,
+  mount: false
 }
 
 const pageReducer = (state = INITIAL_STATE, action) => {
@@ -34,6 +35,11 @@ const pageReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         welcomeScreen: action.payload
+      }
+    case pageActionTypes.SET_MOUNT: 
+      return {
+        ...state,
+        mount: true
       }
     default:
       return state

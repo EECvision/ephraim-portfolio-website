@@ -44,7 +44,7 @@ const Landing = ({ activeProject, view, setCurrentPage }) => {
   return (
     <div className={cx.landing}>
       <nav className={cx.nav}>
-        <div onClick={() => handlePageClick('/home')}>Ephraim Sopuru</div>
+        <div onClick={() => handlePageClick('')}>Ephraim Sopuru</div>
         <div onClick={() => handlePageClick('about')}>About</div>
       </nav>
 

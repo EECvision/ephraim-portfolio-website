@@ -1,7 +1,7 @@
 import { combineReducers } from "redux"
 import pageReducer from "./page/page.reducers"
 import { persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
+import storage from 'redux-persist/lib/storage/session';
 
 const rootReducer = combineReducers({
   page: pageReducer

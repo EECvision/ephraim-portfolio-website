@@ -21,11 +21,11 @@ const About = ({ activeProject, currentPage }) => {
   const handleBack = () => {
     setTimeout(() => {
       if (currentPage === "home") {
-        history.push('/home')
+        history.push('/')
       } else {
         history.push(`/project/${activeProject}`)
       }
-    }, 1500);
+    }, currentPage === "home" ? 0 : 1500);
     setView(false)
   }
 
