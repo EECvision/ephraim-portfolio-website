@@ -2,22 +2,20 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { setCurrentPage } from '../../state/page/page.actions';
 import { selectActiveProject, selectView } from '../../state/page/page.selector';
-import ProjectSelector from '../../components/ProjectSelector/ProjectSelector';
-import { toSentenceCase } from '../../components/utils';
+import ProjectSelector from '../ProjectSelector/ProjectSelector';
+import { toSentenceCase } from '../utils';
 import projectData from '../../state/DATA.json';
 import cx from './Landing.module.css';
 import { useHistory } from 'react-router-dom';
 
-const Landing = ({ setCurrent, activeProject, view }) => {
+const Landing = ({ activeProject, view }) => {
   const [prevId, setPrevId] = useState(projectData[activeProject].id)
   const [dir, setDir] = useState('down');
   const { projectTitle, projectDescription, caseStudy, mainColor, textColor } = projectData[activeProject]
   const history = useHistory();
 
   const handlePageClick = page => {
-    // setCurrent(page)
     history.push(`/${page}`)
   }
 
@@ -76,8 +74,4 @@ const mapStateToProps = createStructuredSelector({
   activeProject: selectActiveProject
 })
 
-const mapDispatchToProps = dispatch => ({
-  setCurrent: page => dispatch(setCurrentPage(page))
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Landing)
+export default connect(mapStateToProps)(Landing)

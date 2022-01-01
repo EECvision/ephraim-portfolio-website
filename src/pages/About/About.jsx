@@ -1,10 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { setCurrentPage } from '../../state/page/page.actions';
 import cx from './About.module.css';
 
-const About = ({ setCurrentPage }) => {
+const About = () => {
   const [view, setView] = useState(false);
   const domMountRef = useRef(true);
   const history = useHistory()
@@ -16,9 +15,7 @@ const About = ({ setCurrentPage }) => {
   }, [view])
 
   const handleBack = () => {
-    // window.history.pushState(null, "next page", '/home')
     setTimeout(() => {
-      // setCurrentPage('/home')
       history.push('/home')
     }, 1500);
     setView(false)
@@ -50,8 +47,4 @@ const About = ({ setCurrentPage }) => {
   )
 }
 
-const mapDispatchToProps = dispatch => ({
-  setCurrentPage: page => dispatch(setCurrentPage(page))
-})
-
-export default connect(null, mapDispatchToProps)(About)
+export default About;

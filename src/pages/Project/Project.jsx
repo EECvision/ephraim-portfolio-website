@@ -1,181 +1,183 @@
-import React from 'react';
-import { Link, DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
+import React, { useEffect, useState, useRef } from "react"
+import { connect } from "react-redux";
+import { createStructuredSelector } from "reselect";
+import { calcView, toSentenceCase } from "../../components/utils";
+import { selectActiveProject } from "../../state/page/page.selector";
+import cx from './Project.module.css';
+import projectData from '../../state/DATA.json';
+import { useHistory } from "react-router-dom";
+import { getProject } from "./Project_Script";
+import { useParams } from "react-router-dom";
 
-const styles = {
-  fontFamily: 'sans-serif',
-  textAlign: 'center',
-};
+const Project = () => {
+  const params = useParams();
+  const { projectTitle, mainColor } = projectData[params.id]
+  const [state, setState] = useState({
+    center: false,
+    back: false,
+    close: false,
+    contentId: 0,
+    activeContentId: 0,
+    projectContents: {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+    }
+  });
+  const { center, back, close, projectContents, contentId, activeContentId } = state;
+  const [scroll, setScroll] = useState(0);
 
-class Section extends React.Component {
+  const cardRef = useRef(null);
+  const titleRef = useRef(null);
+  const containerRef = useRef(null);
 
-  constructor(props) {
-    super(props);
-    this.scrollToTop = this.scrollToTop.bind(this);
+  const handleSetState = (obj) => {
+    setState(state => ({ ...state, ...obj }))
   }
 
-  componentDidMount() {
-
-    Events.scrollEvent.register('begin', function () {
-      console.log("begin", arguments);
-    });
-
-    Events.scrollEvent.register('end', function () {
-      console.log("end", arguments);
-    });
-
-  }
-  scrollToTop() {
-    scroll.scrollToTop();
-  }
-  scrollTo() {
-    scroller.scrollTo('scroll-to-element', {
-      duration: 800,
-      delay: 0,
-      smooth: 'easeInOutQuart'
+  const handlePageScroll = () => {
+    const projectContent = document.getElementById("projectContent").children;
+    let container = containerRef.current;
+    let scrollHeight = container.scrollTop;
+    let clientHeight = container.clientHeight;
+    let scrolled = (scrollHeight / clientHeight) * 100;
+    setScroll(scrolled)
+    handleSetState({
+      projectContents: {
+        ...projectContents,
+        "6": parseInt(projectContent[5]
+          .getBoundingClientRect().top),
+        "5": parseInt(projectContent[4]
+          .getBoundingClientRect().top),
+        "4": parseInt(projectContent[3]
+          .getBoundingClientRect().top),
+        "3": parseInt(projectContent[2]
+          .getBoundingClientRect().top),
+        "2": parseInt(projectContent[1]
+          .getBoundingClientRect().top),
+        "1": parseInt(projectContent[0]
+          .getBoundingClientRect().top)
+      }
     })
   }
-  scrollToWithContainer() {
 
-    let goToContainer = new Promise((resolve, reject) => {
-
-      Events.scrollEvent.register('end', () => {
-        resolve();
-        Events.scrollEvent.remove('end');
-      });
-
-      scroller.scrollTo('scroll-container', {
-        duration: 800,
-        delay: 0,
-        smooth: 'easeInOutQuart'
-      });
-
-    });
-
-    goToContainer.then(() =>
-      scroller.scrollTo('scroll-container-second-element', {
-        duration: 800,
-        delay: 0,
-        smooth: 'easeInOutQuart',
-        containerId: 'scroll-container'
-      }));
+  const handleScrollTop = () => {
+    let container = document.getElementById("transparent")
+    container.scrollIntoView();
+    handleSetState({ contentId: 0 })
   }
-  componentWillUnmount() {
-    Events.scrollEvent.remove('begin');
-    Events.scrollEvent.remove('end');
+
+  const history = useHistory()
+
+  const handlePageClick = (page) => {
+    handleSetState({ back: true })
+    setTimeout(() => {
+      history.push(`/${page}`)
+    }, 2000);
   }
-  render() {
-    return (
-      <div>
-          <nav className="navbar navbar-default navbar-fixed-top">
-            <div className="container-fluid">
-              <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul className="nav navbar-nav">
-                  <li><Link activeClass="active" className="test1" to="test1" spy={true} smooth={true} duration={500} >Test 1</Link></li>
-                  <li><Link activeClass="active" className="test2" to="test2" spy={true} smooth={true} duration={500}>Test 2</Link></li>
-                  <li><Link activeClass="active" className="test3" to="test3" spy={true} smooth={true} duration={500} >Test 3</Link></li>
-                  <li><Link activeClass="active" className="test4" to="test4" spy={true} smooth={true} duration={500}>Test 4</Link></li>
-                  <li><Link activeClass="active" className="test5" to="test5" spy={true} smooth={true} duration={500} delay={1000}>Test 5 ( delay )</Link></li>
-                  <li><Link activeClass="active" className="test6" to="anchor" spy={true} smooth={true} duration={500}>Test 6 (anchor)</Link></li>
-                  <li> <a onClick={() => scroll.scrollTo(100)}>Scroll To 100!</a></li>
-                  <li> <a onClick={() => scroll.scrollToBottom()}>Scroll To Bottom</a></li>
-                  <li> <a onClick={() => scroll.scrollMore(500)}>Scroll 500 More!</a></li>
-                  <li> <a onClick={() => scroll.scrollMore(1000, { delay: 1500 })}>Scroll 1000 More! ( delay ) </a></li>
-                  <li><Link activeClass="active" className="test8" to="same" spy={true} smooth={true} duration={500}>Same target</Link></li>
-                  <li><Link activeClass="active" className="test9" to="same" spy={true} smooth={true} duration={500}>Same target</Link></li>
-                  <li><a className="test1" to="test1" onClick={() => this.scrollTo()} >Scroll to element</a></li>
-                  <li><a className="test1" to="test1" onClick={() => this.scrollToWithContainer()} >Scroll to element within container</a></li>
-                </ul>
-              </div>
-            </div>
-          </nav>
 
-          <Element name="test1" className="element" >
-            test 1
-        </Element>
+  useEffect(() => {
+    try {
+      handleSetState({ center: true })
+      document.getElementById("swipe")
+        .onanimationend = (e) => {
+          if (e.animationName.includes('openSwiper')) {
+            handleSetState({ close: true })
+          } else if (e.animationName.includes('closeSwiper')) {
+            handleSetState({ home: true })
+          }
+        }
+    } catch (error) {
+      console.log('componentDidMount');
+    }
+  }, [])
 
-          <Element name="test2" className="element">
-            test 2
-        </Element>
+  useEffect(() => {
+    const getScroll = () => {
+      if (scroll < 100) return scroll
+      return 100
+    }
+    titleRef.current.style.transform = `translateY(${-(getScroll() / 100 * 100)}px)`
+    cardRef.current.style.transform = `
+      rotateY(${-(getScroll() / 100) * 45}deg) 
+      rotateX(${(getScroll() / 100) * 30}deg) 
+      translateX(${(getScroll() / 100) * 320}px) 
+      translateY(${-((scroll / 100) * 100)}px)
+    `
+    document.getElementById("contentNav").style.opacity = (getScroll()/100) * 1
+  }, [scroll])
 
-          <Element name="test3" className="element">
-            test 3
-        </Element>
+  useEffect(() => {
+    let id = calcView(projectContents, -100)
+    if (activeContentId !== id) handleSetState({ activeContentId: id })
+    if(projectContents["1"] > 200 ){ 
+      handleSetState({ activeContentId: 0 })
+      handleSetState({contentId: 0})
+    }
+  }, [projectContents])
 
-          <Element name="test4" className="element">
-            test 4
-        </Element>
+  useEffect(() => {
+    try {
+      const projectContent = document.getElementById("projectContent").children;
+      projectContent[contentId - 1].scrollIntoView()
+    } catch (error) { }
+  }, [contentId])
 
-          <Element name="test5" className="element">
-            test 5
-        </Element>
+  return (
+    <div ref={containerRef} onScroll={handlePageScroll} className={`${cx.container}`}>
+      <div id="swipe" style={{ background: mainColor }} className={`${cx.swiper} ${back && cx.swipeOpen} ${close && cx.swipeClose}`}></div>
+      <nav className={cx.nav}>
+        <div onClick={() => handlePageClick('home')}>Back</div>
+        <div onClick={() => handlePageClick('about')}>About</div>
+      </nav>
 
-          <div id="anchor" className="element">
-            test 6 (anchor)
+      <div className={`${cx.wrapper} ${close && cx.hide}`}>
+        <div className={cx.fixed}>
+          <div style={{ background: mainColor }} className={`${cx.bg} ${center && cx.center}`}></div>
+          <div ref={cardRef} className={`${cx.card} ${center && cx.center}`}></div>
+          <div ref={titleRef} className={`${cx.projectTitle} ${center && cx.center}`}>{toSentenceCase(projectTitle)}</div>
+        </div>
+        <div id="transparent" className={cx.transparent}>
+          <div onClick={() => handleSetState({ contentId: 1 })} className={cx.arrowDown}>arrow down</div>
         </div>
 
-          <Link activeClass="active" to="firstInsideContainer" spy={true} smooth={true} duration={250} containerId="containerElement" style={{ display: 'inline-block', margin: '20px' }}>
-            Go to first element inside container
-        </Link>
-
-          <Link activeClass="active" to="secondInsideContainer" spy={true} smooth={true} duration={250} containerId="containerElement" style={{ display: 'inline-block', margin: '20px' }}>
-            Go to second element inside container
-        </Link>
-
-          <Element name="test7" className="element" id="containerElement" style={{
-            position: 'relative',
-            height: '200px',
-            overflow: 'scroll',
-            marginBottom: '100px'
-          }}>
-
-            <Element name="firstInsideContainer" style={{
-              marginBottom: '200px'
-            }}>
-              first element inside container
-          </Element>
-
-            <Element name="secondInsideContainer" style={{
-              marginBottom: '200px'
-            }}>
-              second element inside container
-          </Element>
-          </Element>
-
-
-          <Element id="same" className="element">
-            Two links point to this
-        </Element>
-
-
-          <Element name="scroll-to-element" className="element">
-            Scroll to element
-        </Element>
-
-          <Element className="element" id="scroll-container" style={{
-            position: 'relative',
-            height: '200px',
-            overflow: 'scroll',
-            marginBottom: '100px'
-          }}>
-
-            <Element name="scroll-container-first-element" style={{
-              marginBottom: '200px'
-            }}>
-              first element inside container
-          </Element>
-
-            <Element name="scroll-container-second-element" style={{
-              marginBottom: '200px'
-            }}>
-              second element inside container
-          </Element>
-          </Element>
-
-          <a onClick={this.scrollToTop}>To the top!</a>
+        <div className={cx.contentWrapper}>
+          {getProject(params.id)}
+          <div id="contentNav" className={cx.contentNav}>
+            <div
+              onClick={() => handleSetState({ contentId: 1 })}
+              className={` ${cx.navItem} ${activeContentId === '1' && cx.active}`}
+            >nav 1</div>
+            <div
+              onClick={() => handleSetState({ contentId: 2 })}
+              className={` ${cx.navItem} ${activeContentId === '2' && cx.active}`}
+            >nav 2</div>
+            <div
+              onClick={() => handleSetState({ contentId: 3 })}
+              className={` ${cx.navItem} ${activeContentId === '3' && cx.active}`}
+            >nav 3</div>
+            <div
+              onClick={() => handleSetState({ contentId: 4 })}
+              className={` ${cx.navItem} ${activeContentId === '4' && cx.active}`}
+            >nav 4</div>
+            <div
+              onClick={() => handleSetState({ contentId: 5 })}
+              className={` ${cx.navItem} ${activeContentId === '5' && cx.active}`}
+            >nav 5</div>
+            <div
+              onClick={() => handleSetState({ contentId: 6 })}
+              className={` ${cx.navItem} ${activeContentId === '6' && cx.active}`}
+            >nav 6</div>
+            <div className={cx.backToTop} onClick={handleScrollTop}>back to top</div>
+          </div>
+        </div>
       </div>
-    );
-  }
-};
+    </div >
+  )
+}
 
-export default Section;
 
+export default Project

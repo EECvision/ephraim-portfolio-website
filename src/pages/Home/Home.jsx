@@ -1,22 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import Landing from '../Landing/Landing';
-import { setActiveProject, setCurrentPage, setInview, setView } from '../../state/page/page.actions';
-import { selectActiveProject, selectCurrentPage, selectInview, selectView } from '../../state/page/page.selector';
+import Landing from '../../components/Landing/Landing';
+import { setActiveProject, setInview, setView } from '../../state/page/page.actions';
+import { selectActiveProject, selectInview, selectView } from '../../state/page/page.selector';
 import cx from './Home.module.css';
-import { calcView, getActiveProject } from '../Welcome/Welcome.script';
 import projectData from '../../state/DATA.json';
 import { useHistory } from 'react-router-dom';
+import { calcView } from "../../components/utils";
 
-const LINK = {
-  "1": "project-1",
-  "2": "project-2",
-  "3": "project-3",
-  "4": "project-4"
-}
-
-const Home = ({ currentPage, setCurrentPage, setActiveProject, activeProject, inview, setInview, view}) => {
+const Home = ({ setActiveProject, activeProject, inview, setInview, view}) => {
   
   const [state, setState] = useState({
     build: false,
@@ -32,8 +25,6 @@ const Home = ({ currentPage, setCurrentPage, setActiveProject, activeProject, in
   const { build, show, projects, currentProject } = state;
   const { background } = projectData[activeProject]
 
-  const domMountRef = useRef(false);
-
   const handleSetState = (obj) => {
     setState(state => ({ ...state, ...obj }))
   }
@@ -43,40 +34,19 @@ const Home = ({ currentPage, setCurrentPage, setActiveProject, activeProject, in
   const history = useHistory();
 
   const handleProjectClick = (id) => {
-    // setCurrentPage(LINK[id])
-    history.push(`/${LINK[id]}`)
+    history.push(`/project/${id}`)
   }
 
   useEffect(() => {
     handleSetState({show: true})
     try {
       homeWrapperRef.current
-        .onanimationend = e => {
-          if (e.animationName === "Welcome_build__350H9") {
-            handleSetState({ show: true })
-            setInview(1)
-          }
+      .onanimationend = e => {
+        if (e.animationName === "Welcome_build__350H9") {
+          handleSetState({ show: true })
+          setInview(1)
         }
-    } catch (error) {
-      console.log('componentDidMount');
-    }
-  }, [])
-
-  useEffect(() => {
-    try {
-      document.getElementById(`project${inview}`).scrollIntoView()
-    } catch (error) { }
-  }, [inview])
-
-  useEffect(() => {
-    if (domMountRef.current === true) {
-      window.history.pushState(null, "next page", currentPage)
-    }
-    domMountRef.current = true
-  }, [currentPage])
-
-  useEffect(() => {
-    try {
+      }
       projectWindowRef.current
         .addEventListener("scroll", () => {
           handleSetState({
@@ -111,14 +81,17 @@ const Home = ({ currentPage, setCurrentPage, setActiveProject, activeProject, in
     } else {
       setActiveProject("1")
     }
-
   }, [currentProject])
+
+  useEffect(() => {
+    try {
+      document.getElementById(`project${inview}`).scrollIntoView()
+    } catch (error) { }
+  }, [inview])
+
 
   return (
     <div className={cx.container}>
-      {
-        getActiveProject(currentPage)
-      }
       <div className={cx.homepage}>
         <div className={cx.homeContentWrapper}>
           <div className={cx.nameContainer}>
@@ -150,7 +123,7 @@ const Home = ({ currentPage, setCurrentPage, setActiveProject, activeProject, in
                 id={`project${idx + 1}`}
                 key={idx}
                 className={`${cx.project} `}
-                onClick={() => handleSetState(handleProjectClick(idx + 1))}
+                onClick={() => handleProjectClick(idx + 1)}
               >
                 <h1>projects-{idx + 1}</h1>
               </div>
@@ -163,14 +136,12 @@ const Home = ({ currentPage, setCurrentPage, setActiveProject, activeProject, in
 }
 
 const mapStateToProps = createStructuredSelector({
-  currentPage: selectCurrentPage,
   activeProject: selectActiveProject,
   inview: selectInview,
   view: selectView
 })
 
 const mapDispatchToProps = dispatch => ({
-  setCurrentPage: page => dispatch(setCurrentPage(page)),
   setActiveProject: projectId => dispatch(setActiveProject(projectId)),
   setInview: projectId => dispatch(setInview(projectId)),
   setView: state => dispatch(setView(state))
