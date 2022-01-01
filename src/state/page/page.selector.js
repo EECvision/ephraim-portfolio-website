@@ -21,3 +21,8 @@ export const selectView = createSelector(
   [selectPage],
   page => page.view
 )
+
+export const selectWelcomeScreen = createSelector(
+  [selectPage],
+  page => page.welcomeScreen
+)

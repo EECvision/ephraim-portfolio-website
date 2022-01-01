@@ -112,6 +112,10 @@
   animation: view 450ms both; 
 }
 
+.homeWrapper.viewStable {
+  transform: translateX(0%);
+}
+
 @keyframes view {
   0% { transform: translateX(-99%); height: 100%; }
   100% { transform: translateX(-0); height: 100%; }

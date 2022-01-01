@@ -19,3 +19,8 @@ export const setView = state => ({
   type: pageActionTypes.SET_VIEW,
   payload: state
 })
+
+export const setWelcomeScreen = state => ({
+  type: pageActionTypes.SET_WELCOME_SCREEN,
+  payload: state
+})

@@ -4,7 +4,8 @@ const INITIAL_STATE = {
   currentPage: 'home',
   activeProject: '1',
   inview: 1,
-  view: false
+  view: false,
+  welcomeScreen: true
 }
 
 const pageReducer = (state = INITIAL_STATE, action) => {
@@ -28,6 +29,11 @@ const pageReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         view: action.payload
+      }
+    case pageActionTypes.SET_WELCOME_SCREEN:
+      return {
+        ...state,
+        welcomeScreen: action.payload
       }
     default:
       return state

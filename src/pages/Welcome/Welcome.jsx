@@ -2,14 +2,14 @@ import React, { useEffect, useRef, useState } from 'react'
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import Landing from '../../components/Landing/Landing';
-import { setActiveProject, setInview, setView } from '../../state/page/page.actions';
-import { selectActiveProject, selectInview, selectView } from '../../state/page/page.selector';
+import { setActiveProject, setInview, setView, setWelcomeScreen } from '../../state/page/page.actions';
+import { selectActiveProject, selectInview, selectView, selectWelcomeScreen } from '../../state/page/page.selector';
 import cx from './Welcome.module.css';
 import projectData from '../../state/DATA.json';
 import { useHistory } from 'react-router-dom';
 import { calcView } from "../../components/utils";
 
-const Welcome = ({ setActiveProject, activeProject, inview, setInview, view }) => {
+const Welcome = ({ setActiveProject, activeProject, inview, setInview, view, welcomeScreen, setWelcomeScreen }) => {
 
   const [state, setState] = useState({
     build: false,
@@ -39,7 +39,7 @@ const Welcome = ({ setActiveProject, activeProject, inview, setInview, view }) =
 
   useEffect(() => {
     handleSetState({ build: true })
-    window.history.pushState(null, "next page", 'home')
+    // window.history.pushState(null, "next page", 'home')
     try {
       homeWrapperRef.current
         .onanimationend = e => {
@@ -93,6 +93,7 @@ const Welcome = ({ setActiveProject, activeProject, inview, setInview, view }) =
 
   return (
     <div className={cx.container}>
+      
       <div className={cx.homepage}>
         <div className={cx.homeContentWrapper}>
           <div className={cx.nameContainer}>
@@ -133,6 +134,7 @@ const Welcome = ({ setActiveProject, activeProject, inview, setInview, view }) =
           }
         </div>
       </div>
+
     </div>
   )
 }
@@ -140,13 +142,15 @@ const Welcome = ({ setActiveProject, activeProject, inview, setInview, view }) =
 const mapStateToProps = createStructuredSelector({
   activeProject: selectActiveProject,
   inview: selectInview,
-  view: selectView
+  view: selectView,
+  welcomeScreen: selectWelcomeScreen
 })
 
 const mapDispatchToProps = dispatch => ({
   setActiveProject: projectId => dispatch(setActiveProject(projectId)),
   setInview: projectId => dispatch(setInview(projectId)),
-  setView: state => dispatch(setView(state))
+  setView: state => dispatch(setView(state)),
+  setWelcomeScreen: state => dispatch(setWelcomeScreen(state))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Welcome)

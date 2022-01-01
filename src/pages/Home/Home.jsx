@@ -9,8 +9,8 @@ import projectData from '../../state/DATA.json';
 import { useHistory } from 'react-router-dom';
 import { calcView } from "../../components/utils";
 
-const Home = ({ setActiveProject, activeProject, inview, setInview, view}) => {
-  
+const Home = ({ setActiveProject, activeProject, inview, setInview, view }) => {
+
   const [state, setState] = useState({
     build: false,
     show: true,
@@ -38,15 +38,15 @@ const Home = ({ setActiveProject, activeProject, inview, setInview, view}) => {
   }
 
   useEffect(() => {
-    handleSetState({show: true})
+    handleSetState({ show: true })
     try {
       homeWrapperRef.current
-      .onanimationend = e => {
-        if (e.animationName === "Welcome_build__350H9") {
-          handleSetState({ show: true })
-          setInview(1)
+        .onanimationend = e => {
+          if (e.animationName === "Welcome_build__350H9") {
+            handleSetState({ show: true })
+            setInview(1)
+          }
         }
-      }
       projectWindowRef.current
         .addEventListener("scroll", () => {
           handleSetState({
@@ -76,11 +76,8 @@ const Home = ({ setActiveProject, activeProject, inview, setInview, view}) => {
   }, [projects])
 
   useEffect(() => {
-    if (currentProject) {
-      setActiveProject(String(currentProject))
-    } else {
-      setActiveProject("1")
-    }
+    console.log("currentProject => ", currentProject);
+    setActiveProject(String(currentProject))
   }, [currentProject])
 
   useEffect(() => {
@@ -89,10 +86,13 @@ const Home = ({ setActiveProject, activeProject, inview, setInview, view}) => {
     } catch (error) { }
   }, [inview])
 
+  useEffect(() => {
+    document.getElementById(`project${activeProject}`).scrollIntoView()
+  }, [])
 
   return (
     <div className={cx.container}>
-      <div className={cx.homepage}>
+      {/* <div className={cx.homepage}>
         <div className={cx.homeContentWrapper}>
           <div className={cx.nameContainer}>
             <p className={`${cx.name} ${build && cx.slipIn}`}>Ephraim Sopuru</p>
@@ -103,13 +103,13 @@ const Home = ({ setActiveProject, activeProject, inview, setInview, view}) => {
             <p>The kind of designer you do love to work with</p>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <div ref={homeWrapperRef}
-        style={{background: background}}
+        style={{ background: background }}
         className={` ${cx.homeWrapper} ${build && cx.build} ${show && cx.view}`}
       >
-        <Landing/>
+        <Landing />
       </div>
 
       <div

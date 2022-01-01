@@ -100,7 +100,7 @@
 }
 
 .homeWrapper.build {
-  animation: build 3s both;
+  /* animation: build 3s both; */
 }
 
 @keyframes build {
