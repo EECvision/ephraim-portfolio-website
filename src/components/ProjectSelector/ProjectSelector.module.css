@@ -1,0 +1,87 @@
+.drawContainer {
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 1em;
+  cursor: pointer;
+  background: transparent;
+  color: gray;
+}
+
+.drawWrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1em;
+  position: relative;
+}
+
+.drawWrapper:hover {
+  color: white;
+}
+
+.text {
+  text-transform: uppercase;
+  font-weight: 700;
+  transition: all 200ms 100ms;
+  width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  margin-right: 0;;
+  font-style: italic;
+}
+
+
+.text.show {
+  width: auto;
+  margin-right: 20px;
+}
+
+.draw {
+  position: absolute;
+  right: 0;
+  width: 12px;
+  height: 20px;
+  background: gray;
+  overflow: hidden;
+  border-radius: 0.25em;
+  white-space: nowrap;
+}
+
+.expand {
+  animation-name: grow-shrink;
+}
+
+.expand._1 {
+  animation-delay: 0;
+  animation-duration: 250ms;
+}
+
+.expand._2 {
+  animation-delay: 50ms;
+  animation-duration: 300ms;
+}
+
+.expand._3 {
+  animation-delay: 100ms;
+  animation-duration: 350ms;
+}
+
+.expand._4 {
+  animation-delay: 150ms;
+  animation-duration:400ms;
+}
+
+.expand._5 {
+  animation-delay: 200ms;
+  animation-duration: 450ms;
+}
+
+@keyframes grow-shrink {
+  0%{width: 12px;}
+  40%,50%{width: 120px;}
+  100%{width: 12px;}
+}
