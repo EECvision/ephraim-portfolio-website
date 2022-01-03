@@ -78,11 +78,11 @@ const Welcome = ({ activeProject, animate, setWelcomeScreen, setMount, mount, vi
     try {
       homeWrapperRef.current
         .onanimationend = e => {
-          if (e.animationName === "Welcome_build__350H9") {
+          if (e.animationName.includes('Welcome_build')) {
             console.log('entered build: ', e.animationName);
 
             handleSetState({ show: true })
-          } else if (e.animationName === "Welcome_view__10PGv") {
+          } else if (e.animationName.includes("Welcome_view")) {
             console.log('entered view: ', e.animationName);
             setWelcomeScreen(false)
           }else {
