@@ -80,6 +80,22 @@ const Project = ({ setCurrentPage }) => {
     }, page === "about" ? 1500 : 0);
   }
 
+  const handleNext = () => {
+    if (Number(params.id) === 4) {
+      history.push(`/project/${1}`)
+    } else {
+      history.push(`/project/${Number(params.id) + 1}`)
+    }
+  }
+
+  const handlePrev = () => {
+    if (Number(params.id) === 1) {
+      history.push(`/project/${4}`)
+    } else {
+      history.push(`/project/${Number(params.id) - 1}`)
+    }
+  }
+
   useEffect(() => {
     try {
       handleSetState({ center: true })
@@ -101,20 +117,26 @@ const Project = ({ setCurrentPage }) => {
       if (scroll < 100) return scroll
       return 100
     }
+    const getOffset = () => {
+      let container = containerRef.current;
+      let clientHeight = container.clientHeight;
+      if (clientHeight - scroll < 150) return true;
+      return false
+    }
     titleRef.current.style.transform = `translateY(${-(getScroll() / 100 * 100)}px)`
     cardRef.current.style.transform = `
-      rotateY(${-(getScroll() / 100) * 45}deg) 
-      rotateX(${(getScroll() / 100) * 30}deg) 
-      translateX(${(getScroll() / 100) * 320}px) 
-      translateY(${-((scroll / 100) * 100)}px)
+      rotateY(${-(getScroll() / 80) * 30}deg) 
+      translateX(${(getScroll() / 80) * 320}px) 
     `
     document.getElementById("contentNav").style.opacity = (getScroll() / 100) * 1
+    document.getElementById("routeBtn").style.display = getOffset() ? 'flex' : 'none'
+
   }, [scroll])
 
   useEffect(() => {
     let id = calcView(projectContents, -100)
     if (activeContentId !== id) handleSetState({ activeContentId: id })
-    if (projectContents["1"] > 200) {
+    if (projectContents["1"] > 260) {
       handleSetState({ activeContentId: 0 })
       handleSetState({ contentId: 0 })
     }
@@ -127,8 +149,14 @@ const Project = ({ setCurrentPage }) => {
     } catch (error) { }
   }, [contentId])
 
+  useEffect(() => {
+    let container = document.getElementById("transparent")
+    container.scrollIntoView();
+  }, [params.id])
+
   return (
     <div ref={containerRef} onScroll={handlePageScroll} className={`${cx.container}`}>
+      <div className={cx.innerText}>Ephraim</div>
       <div id="swipe" style={{ background: mainColor }} className={`${cx.swiper} ${back && cx.swipeOpen} ${close && cx.swipeClose}`}></div>
       <nav className={cx.nav}>
         <div onClick={() => handlePageClick('')}>Back</div>
@@ -151,7 +179,7 @@ const Project = ({ setCurrentPage }) => {
             <div
               onClick={() => handleSetState({ contentId: 1 })}
               className={` ${cx.navItem} ${activeContentId === '1' && cx.active}`}
-            >nav 1</div>
+            >nav test nav 1</div>
             <div
               onClick={() => handleSetState({ contentId: 2 })}
               className={` ${cx.navItem} ${activeContentId === '2' && cx.active}`}
@@ -173,7 +201,18 @@ const Project = ({ setCurrentPage }) => {
               className={` ${cx.navItem} ${activeContentId === '6' && cx.active}`}
             >nav 6</div>
             <div className={cx.backToTop} onClick={handleScrollTop}>back to top</div>
+
+            <div className={cx.routeBtn}>
+              <div onClick={handlePrev} className={cx.prev}>prev</div>
+              <div onClick={handleNext} className={cx.next}>next</div>
+            </div>
           </div>
+
+          <div id="routeBtn" className={`${cx.routeBtn} ${cx.out}`}>
+            <div onClick={handlePrev} className={cx.prev}>prev</div>
+            <div onClick={handleNext} className={cx.next}>next</div>
+          </div>
+
         </div>
       </div>
     </div >

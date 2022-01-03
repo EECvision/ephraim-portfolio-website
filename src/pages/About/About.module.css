@@ -1,11 +1,28 @@
-.aboutContainer {
+.aboutWrapper {
+  position: relative;
   width: 100%;
   height: 100%;
-  border: 1px solid red;
-  padding: 3em 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.aboutContainer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
   transform: translateX(100%);
   transition: all 650ms 500ms;
   background: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: auto;
+}
+
+.innerText {
+  position: absolute;
+  z-index: -1000;
 }
 
 .aboutContainer.view {
@@ -13,62 +30,60 @@
 }
 
 .nav {
+  margin-top: 3em;
   width: 100%;
-  border: 1px solid red;
   display: flex;
   justify-content: space-between;
   margin-bottom: 4em;
-  padding: 0 6em;
+  padding: 0 4em;
 }
 
 .backBtn {
-  border: 1px solid red;
   cursor: pointer;
 }
 
 .profile {
-  border: 1px solid red;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: flex-start;
 }
 
 .imageContainer {
-  width: 40em;
-  height: 30em;
-  border: 1px solid red;
+  width: 48vw;
+  height: 38vw;
+  background-position: center;
+  background-size: cover;
+  background-image: url('https://assets.justinmind.com/wp-content/uploads/2019/07/ios-ui-design-custom-components.png');
 }
 
 .info {
   max-width: 42em;
-  border: 1px solid red;
   display: flex;
   justify-content: flex-end;
   flex-direction: column;
   gap: 2em;
+  padding-right: 1em;
 }
 
 .name {
-  border: 1px solid red;
   font-size: 6em;
-  font-weight: 900;
+  font-size: calc(2rem + 4vw);
   font-family: serif;
   margin-bottom: 16px; 
   transform: translateX(-80px);
 }
 
 .about {
-  border: 1px solid red;
-  padding-left: 8em;
+  padding-left: 8vw;
 }
 
 .contact {
   width: 100%;
-  border: 1px solid red;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 1em;
+  justify-content: flex-start;
+  gap: 4em;
   padding-left: 8em;
 }
 
@@ -92,4 +107,54 @@
 
 .welcomeScreen.view {
   display: block;
+}
+
+@media screen and (max-width: 1024px) {
+
+  .nav {
+    padding: 0 2em;
+  }
+
+  .imageContainer {
+    width: 72vw;
+    height: 42vw; 
+    margin-bottom: 2em;
+  }
+
+  .profile {
+    flex-direction: column;
+    margin-bottom: 6em;
+  }
+
+  .info {
+    padding: 0 1em;
+  }
+
+  .name {
+    transform: translateX(0);
+    margin-bottom: 0;
+  }
+
+  .contact {
+    padding: 0;
+    justify-content: space-evenly;
+  }
+
+  .about {
+    padding: 0;
+  }
+}
+
+@media screen and (max-width: 768px) {
+
+  .nav {
+    padding: 0 1em;
+    margin-bottom: 2em;
+  }
+
+  .imageContainer {
+    width: 100%;
+    height: 62vw; 
+  }
+
 }

@@ -3,6 +3,15 @@
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.innerText {
+  position: absolute;
+  z-index: -10;
 }
 
 .wrapper {
@@ -37,7 +46,7 @@
   justify-content: space-between;
   z-index: 1000000;
   color: blueviolet;
-  padding: 1em 6em;
+  padding: 1em 4em;
 }
 
 .nav div {
@@ -45,16 +54,19 @@
 }
 
 .card {
-  width: 35em;
-  height: 25em;
+  width: 40vw;
+  height: 28vw;
   position: absolute;
   background: pink;
-  transform: rotateY(-45deg) rotateX(30deg) translateX(320px) translateY(-100px);
-  transition: all 1s;
+  transform: rotateY(-30deg) translateX(320px);
+  background-position: center;
+  background-size: cover;
+  background-image: url('https://assets.justinmind.com/wp-content/uploads/2019/07/ios-ui-design-custom-components.png');
+  transition: all 1050ms;
 }
 
 .card.center {
-  transform: rotateY(0deg) rotateX(0deg) translateX(0px) translateY(0);
+  transform: rotateY(0deg) translateX(0px);
 }
 
 .bg {
@@ -62,7 +74,7 @@
   width: 100%;
   height: 100%;
   transform: translateX(-1500px);
-  transition: all 1s;
+  transition: all 650ms;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -74,7 +86,7 @@
 
 .arrowDown {
   position: fixed;
-  bottom: 0;
+  bottom: 2em;
   background: blueviolet;
   padding: 0.5em;
   cursor: pointer;
@@ -84,9 +96,9 @@
   position: absolute;
   width: 100%;
   transform: translateY(-100px);
-  transition: all 650ms;
+  transition: all 250ms;
   padding-left: 1em;
-  font-size: 9.2em;
+  font-size: calc(2rem + 7vw);
   font-weight: 900;
   font-family: serif;
   color: white;
@@ -130,8 +142,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: yellowgreen;
-  padding: 0 12em;
+  background: rgb(236, 231, 231);
+  padding: 2em 12em;
   position: relative;
 }
 
@@ -140,7 +152,6 @@
   height: 100%;
   flex: 0 0 auto;
   background: transparent;
-  border: 2px solid tomato;
   position: relative;
   display: flex;
   align-items: center;
@@ -150,7 +161,6 @@
 .contentNav {
   width: auto;
   height: 100%;
-  border: 1px solid red;
   position: fixed;
   top: 0;
   right: 4em;
@@ -162,6 +172,7 @@
   background: transparent;
 }
 
+.backToTop,
 .navItem {
   display: block;
   width: 100%;
@@ -197,3 +208,98 @@
   left: 0;
   z-index: 1000;
 }
+
+.routeBtn {
+  width: 100%;
+  position: absolute;
+  bottom: 4em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+}
+
+.routeBtn.out {
+  visibility: hidden;
+  width: auto;
+  position: fixed;
+  right: 4em;
+}
+
+.next, .prev {
+  flex: 1;
+  cursor: pointer;
+  border: 1px solid gray;
+  text-align: center;
+}
+
+@media screen and (max-width: 1200px) {
+  .nav {
+    padding: 1em 3em;
+  }
+
+  .card {
+    width: 64vw;
+    height: 36vw;
+  }
+
+  .contentWrapper {
+    padding: 2em 7em;
+  }
+
+  .contentNav {
+    right: 2em;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .card {
+    position: static;
+    margin-bottom: 2em;
+  }
+
+  .projectTitle {
+    position: static;
+    text-align: center;
+    padding: 0;
+  }
+
+  .fixed {
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .nav {
+    padding: 1em 2em;
+  }
+
+  .contentWrapper {
+    padding: 2em 5em;
+  }
+
+  .contentNav {
+    font-size: 0.75rem;
+  }
+  
+}
+
+@media screen and (max-width: 768px) {  
+  .card {
+    width: 84vw;
+    height: 48vw;
+  }
+
+  .contentWrapper {
+    padding: 2em 1em;
+  }
+
+  .contentNav {
+    display: none;
+  }
+
+  .routeBtn.out {
+    visibility: visible;
+  }
+}
+
