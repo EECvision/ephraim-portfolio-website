@@ -85,7 +85,7 @@ const Landing = ({ activeProject, view, setCurrentPage, setActiveProject }) => {
   }, [])
 
   useEffect(() => {
-    let projectId = calcView(projects, 300)
+    let projectId = calcView(projects, 250)
     if (currentProject !== projectId) handleSetState({ currentProject: projectId })
   }, [projects])
 
