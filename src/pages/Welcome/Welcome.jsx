@@ -75,10 +75,6 @@ const Welcome = ({ activeProject, animate, setWelcomeScreen, setMount, mount, vi
   }, [currentProject])
 
   useEffect(() => {
-    if (!animate) {
-      handleSetState({ build: false, show: true })
-      setMount()
-    }
     try {
       homeWrapperRef.current
         .onanimationend = e => {
@@ -90,6 +86,16 @@ const Welcome = ({ activeProject, animate, setWelcomeScreen, setMount, mount, vi
         }
     } catch (error) { }
   }, [])
+
+  useEffect(()=> {
+    if (!animate) {
+      console.log('build-false', animate);
+      handleSetState({ build: false, show: true })
+      setMount()
+    }else {
+      console.log('build-true', animate);
+    }
+  },[animate])
 
   useEffect(() => {
     if (domMountRef.current) {
