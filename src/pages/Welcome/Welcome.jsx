@@ -79,14 +79,14 @@ const Welcome = ({ activeProject, animate, setWelcomeScreen, setMount, mount, vi
       homeWrapperRef.current
         .onanimationend = e => {
           if (e.animationName.includes('Welcome_build')) {
-            console.log('entered build: ', e.animationName);
+            console.log('entered build new: ', e.animationName);
 
             handleSetState({ show: true })
           } else if (e.animationName.includes("Welcome_view")) {
-            console.log('entered view: ', e.animationName);
+            console.log('entered view new: ', e.animationName);
             setWelcomeScreen(false)
           }else {
-            console.log('entered rendom: ', e.animationName);
+            console.log('entered rendom new: ', e.animationName);
           }
         }
     } catch (error) { }
