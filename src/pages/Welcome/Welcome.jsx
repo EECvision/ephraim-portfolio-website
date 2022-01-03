@@ -12,7 +12,7 @@ import { calcView } from '../../components/utils';
 const Welcome = ({ activeProject, animate, setWelcomeScreen, setMount, mount, view, setActiveProject }) => {
 
   const [state, setState] = useState({
-    build: true,
+    build: false,
     show: false,
     currentProject: 1,
     cancelAnimation: false,
@@ -79,23 +79,18 @@ const Welcome = ({ activeProject, animate, setWelcomeScreen, setMount, mount, vi
       homeWrapperRef.current
         .onanimationend = e => {
           if (e.animationName === "Welcome_build__350H9") {
+            console.log('entered build: ', e.animationName);
+
             handleSetState({ show: true })
           } else if (e.animationName === "Welcome_view__10PGv") {
+            console.log('entered view: ', e.animationName);
             setWelcomeScreen(false)
+          }else {
+            console.log('entered rendom: ', e.animationName);
           }
         }
     } catch (error) { }
   }, [])
-
-  useEffect(()=> {
-    if (!animate) {
-      console.log('build-false', animate);
-      handleSetState({ build: false, show: true })
-      setMount()
-    }else {
-      console.log('build-true', animate);
-    }
-  },[animate])
 
   useEffect(() => {
     if (domMountRef.current) {
@@ -104,6 +99,15 @@ const Welcome = ({ activeProject, animate, setWelcomeScreen, setMount, mount, vi
     domMountRef.current = true
   }, [view])
 
+  useEffect(()=> {
+    console.log('animate: ', animate);
+    handleSetState({ build: true })
+    if (!animate) {
+      console.log('animate true: ', animate);
+      handleSetState({ build: false, show: true })
+      setMount()
+    }
+  },[animate])
 
   return (
     <div className={cx.container}>
