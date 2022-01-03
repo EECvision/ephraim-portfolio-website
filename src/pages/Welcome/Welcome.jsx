@@ -12,7 +12,7 @@ import { calcView } from '../../components/utils';
 const Welcome = ({ activeProject, animate, setWelcomeScreen, setMount, mount, view, setActiveProject }) => {
 
   const [state, setState] = useState({
-    build: false,
+    build: true,
     show: false,
     currentProject: 1,
     cancelAnimation: false,
@@ -75,7 +75,6 @@ const Welcome = ({ activeProject, animate, setWelcomeScreen, setMount, mount, vi
   }, [currentProject])
 
   useEffect(() => {
-    handleSetState({ build: true })
     if (!animate) {
       handleSetState({ build: false, show: true })
       setMount()
