@@ -6,9 +6,10 @@
   gap: 0.5em;
 }
 
-.draw {
+.selector {
   width: 24px;
   height: 8px;
   border-radius: 2px;
   background: gray;
+  cursor: pointer;
 }

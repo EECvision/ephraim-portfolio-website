@@ -1,6 +1,6 @@
 import { connect } from "react-redux"
 import { setInview, setView } from "../../state/page/page.actions"
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import cx from './ProjectSelector.module.css';
 
 
@@ -10,7 +10,7 @@ const ProjectSelector = ({ setInview, setView, props: { projectTitle, mainColor 
   const [showText, setShowText] = useState(false);
 
   const handleMouseLeave = () => {
-    setExpand(true)
+    setExpand(false)
     setShowText(false)
     setView(false)
   }
@@ -21,19 +21,14 @@ const ProjectSelector = ({ setInview, setView, props: { projectTitle, mainColor 
     setView(true)
   }
 
-  useEffect(() => {
-    try {
-      const draw = document.getElementById("draw-selector");
-      draw.onanimationend = e => {
-        setExpand(false)
-      }
-    } catch (error) { }
-  }, [])
+  const handleMouseOver = id => {
+    setInview(id)
+  }
 
   return (
     <div className={cx.container}>
       <div className={cx.drawContainer} onMouseLeave={handleMouseLeave} onMouseEnter={handleMouseEnter}>
-        <div onMouseOver={() => setInview(1)} className={cx.drawWrapper}>
+        <div onMouseOver={() => handleMouseOver(1)} className={cx.drawWrapper}>
           <div className={`${cx.text} ${showText && cx.show}`}>esperanto</div>
           <div
             style={projectTitle === 'esperanto' ? { background: mainColor } : {}}
@@ -41,7 +36,7 @@ const ProjectSelector = ({ setInview, setView, props: { projectTitle, mainColor 
           </div>
         </div>
 
-        <div onMouseOver={() => setInview(2)} className={cx.drawWrapper}>
+        <div onMouseOver={() => handleMouseOver(2)} className={cx.drawWrapper}>
           <div className={`${cx.text} ${showText && cx.show}`}>ueno</div>
           <div
             style={projectTitle === 'ueno' ? { background: mainColor } : {}}
@@ -49,7 +44,7 @@ const ProjectSelector = ({ setInview, setView, props: { projectTitle, mainColor 
           </div>
         </div>
 
-        <div onMouseOver={() => setInview(3)} className={cx.drawWrapper}>
+        <div onMouseOver={() => handleMouseOver(3)} className={cx.drawWrapper}>
           <div className={`${cx.text} ${showText && cx.show}`}>iv-skaya</div>
           <div
             style={projectTitle === 'iv-skaya' ? { background: mainColor } : {}}
@@ -57,10 +52,10 @@ const ProjectSelector = ({ setInview, setView, props: { projectTitle, mainColor 
           </div>
         </div>
 
-        <div onMouseOver={() => setInview(4)} className={cx.drawWrapper}>
+        <div onMouseOver={() => handleMouseOver(4)} className={cx.drawWrapper}>
           <div className={`${cx.text} ${showText && cx.show}`}>snicksnack</div>
           <div
-            style={projectTitle === 'snicksnack' ? { background: mainColor } : {}} id="draw-selector"
+            style={projectTitle === 'snicksnack' ? { background: mainColor } : {}}
             className={`${cx.draw} ${expand && cx.expand} ${cx._4}`}>
           </div>
         </div>
@@ -71,7 +66,7 @@ const ProjectSelector = ({ setInview, setView, props: { projectTitle, mainColor 
 
 const mapDispatchToProps = dispatch => ({
   setInview: projectId => dispatch(setInview(projectId)),
-  setView: state => dispatch(setView(state))
+  setView: state => dispatch(setView(state)),
 })
 
-export default connect(null, mapDispatchToProps)(ProjectSelector)
+export default connect( null, mapDispatchToProps)(ProjectSelector)

@@ -4,12 +4,13 @@
   align-items: center;
   justify-content: space-between;
   gap: 2em;
+  overflow: hidden;
 }
 
 .project {
   flex: 1 0 auto;
   width: 80%; 
-  height: 16em;
+  height: 20em;
   background-position: center;
   background-size: cover;
   background-image: url('https://assets.justinmind.com/wp-content/uploads/2019/07/ios-ui-design-custom-components.png');

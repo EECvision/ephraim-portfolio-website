@@ -11,12 +11,13 @@
 .project {
   width: 38vw;
   height: 28vw;
-  filter: blur(0px);
-  -webkit-filter: blur(8px);
+  filter: blur(3px);
+  -webkit-filter: blur(3px);
   background-position: center;
   background-size: cover;
   background-image: url('https://assets.justinmind.com/wp-content/uploads/2019/07/ios-ui-design-custom-components.png');
   transition: all 650ms;
+  animation: breath 4s alternate infinite;
 }
 
 .project.active {
@@ -26,4 +27,10 @@
 
 .project.active.viewMode {
   width: 46vw;
+  animation: none;
+}
+
+@keyframes breath {
+  from {transform: translateX(10px) translateY(-10px)};
+  to {transform: translateX(0px) translateY(0)};
 }

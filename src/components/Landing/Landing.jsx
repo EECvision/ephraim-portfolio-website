@@ -1,35 +1,28 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { selectActiveProject, selectView } from '../../state/page/page.selector';
+import { selectInview, selectView } from '../../state/page/page.selector';
 import ProjectSelector from '../ProjectSelector/ProjectSelector';
-import { calcView, toSentenceCase } from '../utils';
+import { toSentenceCase } from '../utils';
 import projectData from '../../state/DATA.json';
 import cx from './Landing.module.css';
 import { useHistory } from 'react-router-dom';
-import { setActiveProject, setCurrentPage } from '../../state/page/page.actions';
+import { setCurrentPage, setInview } from '../../state/page/page.actions';
 import MobileProjectWindow from '../Mobile_Project_Window/Mobile_Project_Window';
 import MobileProjectSelector from '../Mobile_Project_Selector/Mobile_Project_Selector';
 
-const Landing = ({ activeProject, view, setCurrentPage, setActiveProject }) => {
+const Landing = ({ inView, view, setCurrentPage, m }) => {
   const [state, setState] = useState({
     dir: 'down',
-    prevId: projectData[activeProject].id,
-    currentProject: 1,
-    projects: {
-      "1": 0,
-      "2": 0,
-      "3": 0,
-      "4": 0
-    }
+    prevId: projectData[inView].id,
   });
-  const { dir, prevId, projects, currentProject } = state;
 
+  const { dir, prevId } = state;
   const projectWindowRef = useRef(null);
 
-  const { projectTitle, projectDescription, caseStudy, mainColor, background, textColor } = projectData[activeProject]
-  const history = useHistory();
+  const { projectTitle, projectDescription, caseStudy, mainColor, background, textColor } = projectData[inView]
 
+  const history = useHistory();
   const handleSetState = obj => {
     setState(state => ({ ...state, ...obj }))
   }
@@ -40,14 +33,14 @@ const Landing = ({ activeProject, view, setCurrentPage, setActiveProject }) => {
   }
 
   useEffect(() => {
-    let id = projectData[activeProject].id
+    let id = projectData[inView].id
     if (prevId > id) {
       handleSetState({ dir: 'down' })
     } else {
       handleSetState({ dir: 'up' })
     }
     handleSetState({ prevId: id })
-  }, [activeProject])
+  }, [inView])
 
   useEffect(() => {
     try {
@@ -58,48 +51,8 @@ const Landing = ({ activeProject, view, setCurrentPage, setActiveProject }) => {
     } catch (error) { }
   }, [])
 
-  useEffect(() => {
-    try {
-      let projectScrollHandler = projectWindowRef.current
-        .addEventListener("scroll", e => {
-          handleSetState({
-            projects: {
-              ...projects,
-              "4": parseInt(document
-                .getElementById("project-mobile4")
-                .getBoundingClientRect().right),
-              "3": parseInt(document
-                .getElementById("project-mobile3")
-                .getBoundingClientRect().right),
-              "2": parseInt(document
-                .getElementById("project-mobile2")
-                .getBoundingClientRect().right),
-              "1": parseInt(document
-                .getElementById("project-mobile1")
-                .getBoundingClientRect().right)
-            }
-          })
-        })
-      return () => projectScrollHandler
-    } catch (error) { }
-  }, [])
-
-  useEffect(() => {
-    let projectId = calcView(projects, 250)
-    if (currentProject !== projectId) handleSetState({ currentProject: projectId })
-  }, [projects])
-
-  useEffect(() => {
-    if (currentProject) {
-      setActiveProject(String(currentProject))
-    } else {
-      setActiveProject("1")
-    }
-  }, [currentProject])
-
-
   return (
-    <div style={{background: background}} className={cx.landing}>
+    <div id='landing' style={{ background: background }} className={cx.landing}>
       <nav className={cx.nav}>
         <div onClick={() => handlePageClick('')}>Ephraim Sopuru</div>
         <div onClick={() => handlePageClick('about')}>About</div>
@@ -107,7 +60,7 @@ const Landing = ({ activeProject, view, setCurrentPage, setActiveProject }) => {
 
       <div className={cx.mobileProjectSelectorWrapper}>
         <MobileProjectSelector props={{ mainColor, projectTitle }} />
-        </div>
+      </div>
 
       <div
         ref={projectWindowRef}
@@ -122,7 +75,7 @@ const Landing = ({ activeProject, view, setCurrentPage, setActiveProject }) => {
           {projectDescription}
         </p>
         <div onClick={() => handlePageClick(caseStudy)} className={cx.projectLink}>
-          Open case study
+          Open case study{m ? 'true' : 'false'}
         </div>
       </div>
 
@@ -134,19 +87,18 @@ const Landing = ({ activeProject, view, setCurrentPage, setActiveProject }) => {
       <div className={cx.projectSelectorWrapper}>
         <ProjectSelector props={{ mainColor, projectTitle }} />
       </div>
-
     </div>
   )
 }
 
 const mapStateToProps = createStructuredSelector({
   view: selectView,
-  activeProject: selectActiveProject
+  inView: selectInview,
 })
 
 const mapDispatchToProps = dispatch => ({
   setCurrentPage: page => dispatch(setCurrentPage(page)),
-  setActiveProject: projectId => dispatch(setActiveProject(projectId))
+  setInview: projectId => dispatch(setInview(projectId)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Landing)

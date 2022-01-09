@@ -4,7 +4,8 @@ const pageActionTypes = {
   SET_VIEW:'SET_VIEW',
   SET_CURRENT_PAGE: 'SET_CURRENT_PAGE',
   SET_WELCOME_SCREEN: 'SET_WELCOME_SCREEN',
-  SET_MOUNT: "SET_MOUNT"
+  SET_MOUNT: "SET_MOUNT",
+  SET_RELOAD: 'SET_RELOAD'
 }
 
 export default pageActionTypes

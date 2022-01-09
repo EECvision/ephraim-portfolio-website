@@ -7,10 +7,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 .container * {
   scroll-behavior: smooth;
+  perspective: 1000px;
 }
 
 .homepage {
@@ -111,8 +113,7 @@
 }
 
 .homeWrapper.viewStable {
-  transform: translateX(0%) !important;
-  height: 100% !important;
+  transform: translateX(0); height: 100%;
 }
 
 @keyframes view {
@@ -129,18 +130,12 @@
 
 .projectWindow {
   position: absolute;
-  height: 100%;
-  z-index: 10;
-  overflow: auto;
+  height: 70%;
+  z-index: 5;
+  overflow: hidden;
   transform: rotateX(30deg) translateX(20vw) rotateY(0deg);
-  -ms-overflow-style: none;  
-  scrollbar-width: none;     
-  padding-bottom: 24em;
-  /* transition: all 650ms; */
-}
-
-.projectWindow.cancel {
-  transform: rotateX(0) translateX(20vw);
+  /* -ms-overflow-style: none;   */
+  /* scrollbar-width: none;      */
 }
 
 .projectWindow::-webkit-scrollbar {
@@ -148,45 +143,44 @@
 }
 
 .projectWindow.tilt {
-  animation: tilt 1300ms both;
+  animation: tilt 850ms both;
 }
 
 @keyframes tilt {
   0% {transform: rotateX(30deg) translateX(20vw) rotateY(0deg);}
-  50% {transform: rotateX(0) translateX(20vw) rotateY(0deg);}
   100% {transform: rotateX(0) translateX(20vw) rotateY(-30deg);}
 }
 
 .projectWindow.tiltN {
-  transform: rotateX(0) translateX(20vw) rotateY(-30deg);
-} 
+  animation: tiltN 650ms both;
+}
 
+@keyframes tiltN {
+  0% {transform: rotateX(5deg) translateX(10vw) rotateY(0deg);}
+  100% {transform: rotateX(0) translateX(20vw) rotateY(-30deg);}
+}
 
 .projectWindow.center {
   animation: center 350ms both alternate;
 }
 
 @keyframes center {
-  0%{height: 100%; transform: rotateX(0deg) translateX(20vw) rotateY(-30deg); }
-  100% {height: 80%; transform: rotateX(0deg) translateX(0vw) rotateY(0deg); }
+  0% {transform: rotateX(0deg) translateX(20vw) rotateY(-30deg);}
+  100% {transform: rotateX(0deg) translateX(0vw) rotateY(0deg);}
 }
 
 .projectWindow.side {
-  animation: side 350ms both alternate;
+  animation: side 350ms forwards;
 }
 
 @keyframes side {
-  0%{height: 80%; transform: rotateX(0deg) translateX(0vw) rotateY(-0deg); }
-  100% {height: 100%; transform: rotateX(0deg) translateX(20vw) rotateY(-30deg); }
-}
-
-.cancel {
-  animation: none !important;
+  0% {transform: rotateX(0deg) translateX(0vw) rotateY(-0deg);}
+  100% {transform: rotateX(0deg) translateX(20vw) rotateY(-30deg);}
 }
 
 .projectWrapper {
   width: 100%;
-  transform: translateY(12em);
+  transform: translateY(0);
 }
 
 .projectWrapper.slideIn {
@@ -195,7 +189,7 @@
 
 @keyframes slideIn {
   0% {transform: translateY(-2100px);}
-  100% {transform: translateY(12em);}
+  100% {transform: translateY(0);}
 }
 
 @media screen and (max-width: 1200px) {

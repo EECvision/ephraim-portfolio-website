@@ -2,29 +2,23 @@ import React, { useEffect, useRef, useState } from 'react'
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import Landing from '../../components/Landing/Landing';
-import { setActiveProject, setMount, setView, setWelcomeScreen } from '../../state/page/page.actions';
-import { selectActiveProject, selectMount, selectView, selectWelcomeScreen } from '../../state/page/page.selector';
+import { selectInview, selectMount, selectView } from '../../state/page/page.selector';
 import cx from './Welcome.module.css';
 import projectData from '../../state/DATA.json';
 import ProjectWindow from '../../components/Project_Window/Project_Window';
-import { calcView } from '../../components/utils';
+import { setInview, setMount } from '../../state/page/page.actions';
 
-const Welcome = ({ activeProject, animate, setWelcomeScreen, setMount, mount, view, setActiveProject }) => {
+const Welcome = ({ inView, view, mount, setMount, setInview }) => {
 
+  const [counter, setCounter] = useState(0);
+  const [wheelId, setWheelId] = useState(1);
   const [state, setState] = useState({
     build: false,
     show: false,
-    currentProject: 1,
     cancelAnimation: false,
-    projects: {
-      "1": 0,
-      "2": 0,
-      "3": 0,
-      "4": 0
-    }
   });
-  const { build, show, currentProject, projects, cancelAnimation } = state;
-  const { background } = projectData[activeProject]
+  const { build, show, cancelAnimation } = state;
+  const { background } = projectData[inView]
 
   const handleSetState = (obj) => {
     setState(state => ({ ...state, ...obj }))
@@ -34,62 +28,29 @@ const Welcome = ({ activeProject, animate, setWelcomeScreen, setMount, mount, vi
   const projectWindowRef = useRef(null);
   const domMountRef = useRef(null);
 
-  useEffect(() => {
-    try {
-      let projectScrollHandler = projectWindowRef.current
-        .addEventListener("scroll", () => {
-          handleSetState({
-            projects: {
-              ...projects,
-              "4": parseInt(document
-                .getElementById("project4")
-                .getBoundingClientRect().top),
-              "3": parseInt(document
-                .getElementById("project3")
-                .getBoundingClientRect().top),
-              "2": parseInt(document
-                .getElementById("project2")
-                .getBoundingClientRect().top),
-              "1": parseInt(document
-                .getElementById("project1")
-                .getBoundingClientRect().top)
-            }
-          })
-        })
+  const getTilt = () => {
 
-      return () => projectScrollHandler
-    } catch (error) { }
-  }, [])
+    return 'tiltN';
+  }
 
   useEffect(() => {
-    let projectId = calcView(projects, -100)
-    if (currentProject !== projectId) handleSetState({ currentProject: projectId })
-  }, [projects])
-
-  useEffect(() => {
-    if (currentProject) {
-      setActiveProject(String(currentProject))
+    if (!mount) {
+      handleSetState({ build: false, show: true })
     } else {
-      setActiveProject("1")
+      handleSetState({ build: true })
     }
-  }, [currentProject])
-
-  useEffect(() => {
-    try {
-      homeWrapperRef.current
-        .onanimationend = e => {
-          if (e.animationName.includes('Welcome_build')) {
-            console.log('entered build new: ', e.animationName);
-
-            handleSetState({ show: true })
-          } else if (e.animationName.includes("Welcome_view")) {
-            console.log('entered view new: ', e.animationName);
-            setWelcomeScreen(false)
-          }else {
-            console.log('entered rendom new: ', e.animationName);
-          }
+    setMount(true)
+    homeWrapperRef.current
+      .onanimationend = e => {
+        if (e.animationName.includes('Welcome_build')) {
+          handleSetState({ show: true })
         }
-    } catch (error) { }
+      }
+    projectWindowRef.current
+      .onanimationend = e => {
+        if (e.animationName.includes('Welcome_tilt')) {
+        }
+      }
   }, [])
 
   useEffect(() => {
@@ -99,66 +60,78 @@ const Welcome = ({ activeProject, animate, setWelcomeScreen, setMount, mount, vi
     domMountRef.current = true
   }, [view])
 
-  useEffect(()=> {
-    console.log('animate: ', animate);
-    handleSetState({ build: true })
-    if (!animate) {
-      console.log('animate true: ', animate);
-      handleSetState({ build: false, show: true })
-      setMount()
+  useEffect(() => {
+    let body = document.getElementById("root");
+    body.onwheel = (e) => {
+      if (e.wheelDelta > 0) {
+        setCounter(c => c - 1)
+      } else {
+        setCounter(c => c + 1)
+      }
     }
-  },[animate])
+  }, [])
+
+  useEffect(() => {
+    if (counter > 35) {
+      setWheelId(w => w >= 4 ? w : w + 1)
+      setCounter(0)
+    } else if (counter < -35) {
+      setWheelId(w => w <= 1 ? w : w - 1)
+      setCounter(0)
+    }
+    setInview(wheelId ? wheelId : inView)
+  }, [counter])
+
+  useEffect(() => {
+    console.log('wheelId: ', wheelId);
+  }, [wheelId])
+
 
   return (
     <div className={cx.container}>
-      {
-        animate && (
-          <div className={cx.homepage}>
-            <div className={cx.homeContentWrapper}>
-              <div className={cx.nameContainer}>
-                <p className={`${cx.name} ${build && cx.slipIn}`}>Ephraim Sopuru</p>
-                <p className={`${cx.role} ${build && cx.slipIn}`}>Interaction Designer</p>
-              </div>
-
-              <div className={`${cx.description} ${build && cx.slipIn}`}>
-                <p>The kind of designer you do love to work with</p>
-              </div>
-            </div>
+      <div className={cx.homepage}>
+        <div className={cx.homeContentWrapper}>
+          <div className={cx.nameContainer}>
+            <p className={`${cx.name} ${build && cx.slipIn}`}>Ephraim Sopuru</p>
+            <p className={`${cx.role} ${build && cx.slipIn}`}>Interaction Designer</p>
           </div>
-        )
-      }
+
+          <div className={`${cx.description} ${build && cx.slipIn}`}>
+            <p>The kind of designer you do love to work with</p>
+          </div>
+        </div>
+      </div>
 
       <div ref={homeWrapperRef}
         style={{ background: background }}
-        className={` ${cx.homeWrapper} ${build && cx.build} ${show && cx.view} ${!animate && cx.viewStable}`}
+        className={` ${cx.homeWrapper} ${build && cx.build} ${show && mount ? cx.view : show ? cx.viewStable : ''}`}
       >
         <Landing />
       </div>
 
       <div
         ref={projectWindowRef}
-        className={`${cx.projectWindow} ${show && cx.tilt} ${!animate && mount && cx.tiltN} ${view ? cx.center : cancelAnimation ? cx.side : ''}`}>
+        className={`${cx.projectWindow} ${show && cx[getTilt()]} ${view ? cx.center : cancelAnimation ? cx.side : ''}`}>
         <div className={` ${cx.projectWrapper} ${build && cx.slideIn}`} >
           <ProjectWindow />
         </div>
       </div>
-
+      {/* <button style={{ position: 'fixed', zIndex: '100', top: '6em', left: '2em' }} onClick={() => { setCounter(0); setWheelId(1) }}> clear counter</button> */}
     </div>
   )
 }
 
+// : show || !mount ? cx.tiltN : cx.test
+
 const mapStateToProps = createStructuredSelector({
-  activeProject: selectActiveProject,
-  animate: selectWelcomeScreen,
-  mount: selectMount,
-  view: selectView
+  inView: selectInview,
+  view: selectView,
+  mount: selectMount
 })
 
 const mapDispatchToProps = dispatch => ({
-  setActiveProject: projectId => dispatch(setActiveProject(projectId)),
-  setView: state => dispatch(setView(state)),
-  setWelcomeScreen: state => dispatch(setWelcomeScreen(state)),
-  setMount: () => dispatch(setMount())
+  setMount: state => dispatch(setMount(state)),
+  setInview: projectId => dispatch(setInview(projectId))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Welcome)

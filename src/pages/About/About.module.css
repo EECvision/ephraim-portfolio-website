@@ -3,39 +3,67 @@
   width: 100%;
   height: 100%;
   display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2em;
+  margin-bottom: 4em;
+  padding: 0 4em;
+}
+
+.nav div {
+  cursor: pointer;
+  display: flex;
   align-items: center;
   justify-content: center;
+  gap: 1em;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.nav div i {
+  transition: all 300ms;
+}
+
+.nav div:hover i {
+  transform: translateX(-50%);
 }
 
 .aboutContainer {
+  margin-top: 8em;
   position: absolute;
   width: 100%;
-  height: 100%;
   transform: translateX(100%);
   transition: all 650ms 500ms;
   background: white;
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow: auto;
+}
+
+.email {
+  padding: 0.5em 2em;
+  border-radius: 2em;
+  background: #00D1FF;
 }
 
 .innerText {
-  position: absolute;
-  z-index: -1000;
+  align-self: center;
 }
 
 .aboutContainer.view {
   transform: translateX(0);
-}
-
-.nav {
-  margin-top: 3em;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 4em;
-  padding: 0 4em;
 }
 
 .backBtn {
@@ -100,13 +128,14 @@
   left: 0;
   width: 100%;
   height: 100%;
-  border: 4px solid red;
-  /* z-index: 10; */
-  /* display: none; */
 }
 
 .welcomeScreen.view {
   display: block;
+}
+
+.moreContent {
+  padding: 20em;
 }
 
 @media screen and (max-width: 1024px) {

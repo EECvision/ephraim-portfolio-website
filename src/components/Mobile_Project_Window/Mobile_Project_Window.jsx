@@ -1,16 +1,14 @@
-import {  useEffect } from 'react';
+import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
-import { setActiveProject } from '../../state/page/page.actions';
-import { selectActiveProject, selectInview } from '../../state/page/page.selector';
+import { selectInview } from '../../state/page/page.selector';
 import cx from './Mobile_Project_Window.module.css';
 
 
-const MobileProjectWindow = ({ activeProject, inview }) => {
+const MobileProjectWindow = ({ inview }) => {
 
   const history = useHistory();
-
   const handleProjectClick = (id) => {
     history.push(`/project/${id}`)
   }
@@ -18,10 +16,6 @@ const MobileProjectWindow = ({ activeProject, inview }) => {
   useEffect(() => {
     document.getElementById(`project-mobile${inview}`).scrollIntoView()
   }, [inview])
-
-  useEffect(() => {
-    document.getElementById(`project-mobile${activeProject}`).scrollIntoView()
-  }, [])
 
   return (
     <div className={cx.container}>
@@ -42,13 +36,9 @@ const MobileProjectWindow = ({ activeProject, inview }) => {
   )
 }
 
+
 const mapStateToProps = createStructuredSelector({
-  activeProject: selectActiveProject,
   inview: selectInview
 })
 
-const mapDispatchToProps = dispatch => ({
-  setActiveProject: projectId => dispatch(setActiveProject(projectId))
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(MobileProjectWindow);
+export default connect(mapStateToProps)(MobileProjectWindow);
