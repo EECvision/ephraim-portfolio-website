@@ -130,12 +130,10 @@
 
 .projectWindow {
   position: absolute;
-  height: 70%;
+  height: 40vw;
   z-index: 5;
   overflow: hidden;
   transform: rotateX(30deg) translateX(20vw) rotateY(0deg);
-  /* -ms-overflow-style: none;   */
-  /* scrollbar-width: none;      */
 }
 
 .projectWindow::-webkit-scrollbar {
@@ -158,7 +156,7 @@
 
 @keyframes tiltN {
   0% {transform: rotateX(5deg) translateX(20vw) rotateY(0deg);}
-  70% {transform: rotateX(0) translateX(10vw) rotateY(-20deg);}
+  60% {transform: rotateX(0) translateX(10vw) rotateY(-20deg);}
   100% {transform: rotateX(0) translateX(20vw) rotateY(-40deg);}
 }
 
@@ -183,6 +181,7 @@
 .projectWrapper {
   width: 100%;
   transform: translateY(0);
+  padding-bottom: 12em;
 }
 
 .projectWrapper.slideIn {

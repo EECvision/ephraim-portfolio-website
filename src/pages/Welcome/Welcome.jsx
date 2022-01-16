@@ -32,8 +32,7 @@ const Welcome = ({ inView, view, mount, setMount, setInview }) => {
     return 'tiltN';
   }
 
-  function wheelEvent(e) {
-    console.log(e.wheelDelta);
+  const wheelEvent = e => {
     if (e.wheelDelta > 0) {
       setCounter(c => c - 1)
     } else {
@@ -43,7 +42,7 @@ const Welcome = ({ inView, view, mount, setMount, setInview }) => {
 
   useEffect(() => {
     document.getElementById("root")
-    .addEventListener('wheel', wheelEvent)
+      .addEventListener('wheel', wheelEvent)
     if (!mount) {
       handleSetState({ build: false, show: true })
     } else {
@@ -71,13 +70,15 @@ const Welcome = ({ inView, view, mount, setMount, setInview }) => {
   }, [view])
 
   useEffect(() => {
-    if (counter > 35) {
+    if(window.innerWidth <= 1200) return
+    if (counter === 1) {
       setWheelId(w => w >= 4 ? w : w + 1)
-      setCounter(0)
-    } else if (counter < -35) {
+    } 
+    if (counter > 35) setCounter(0)
+    if (counter === -1) {
       setWheelId(w => w <= 1 ? w : w - 1)
-      setCounter(0)
     }
+    if (counter < -35) setCounter(0)
     setInview(wheelId ? wheelId : inView)
   }, [counter])
 
@@ -104,18 +105,16 @@ const Welcome = ({ inView, view, mount, setMount, setInview }) => {
       </div>
 
       <div
+        id='project-window'
         ref={projectWindowRef}
         className={`${cx.projectWindow} ${show && cx[getTilt()]} ${view ? cx.center : cancelAnimation ? cx.side : ''}`}>
         <div className={` ${cx.projectWrapper} ${build && cx.slideIn}`} >
           <ProjectWindow />
         </div>
       </div>
-      {/* <button style={{ position: 'fixed', zIndex: '100', top: '6em', right: '2em' }} onClick={handleScrollStop}> clear counter</button> */}
     </div>
   )
 }
-
-//  show || !mount ? cx.tiltN : cx.test
 
 const mapStateToProps = createStructuredSelector({
   inView: selectInview,

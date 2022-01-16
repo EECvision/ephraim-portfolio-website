@@ -1,13 +1,20 @@
+import { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 import { setInview } from '../../state/page/page.actions';
+import { selectInview } from '../../state/page/page.selector';
 import cx from './Mobile_Project_Selector.module.css';
 
 
-const MobileProjectSelector = ({setInview, props: { projectTitle, mainColor } }) => {
+const MobileProjectSelector = ({setInview, inview, props: { projectTitle, mainColor } }) => {
 
   const handleClick = id => {
     setInview(id)
   }
+
+  useEffect(()=> {
+    console.log(inview);
+  },[inview])
 
   return (
     <div className={cx.container}>
@@ -39,9 +46,13 @@ const MobileProjectSelector = ({setInview, props: { projectTitle, mainColor } })
   )
 }
 
+const mapStateToProps = createStructuredSelector({
+  inview: selectInview
+})
+
 const mapDispatchToProps = dispatch => ({
   setInview: projectId => dispatch(setInview(projectId)),
 })
 
 
-export default connect(null, mapDispatchToProps)(MobileProjectSelector)
+export default connect(mapStateToProps, mapDispatchToProps)(MobileProjectSelector)

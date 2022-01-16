@@ -11,13 +11,14 @@ import { setCurrentPage, setInview } from '../../state/page/page.actions';
 import MobileProjectWindow from '../Mobile_Project_Window/Mobile_Project_Window';
 import MobileProjectSelector from '../Mobile_Project_Selector/Mobile_Project_Selector';
 
-const Landing = ({ inView, view, setCurrentPage, m }) => {
+const Landing = ({ inView, setInview, view, setCurrentPage, m }) => {
   const [state, setState] = useState({
     dir: 'down',
     prevId: projectData[inView].id,
+    counter: 1,
   });
 
-  const { dir, prevId } = state;
+  const { dir, prevId, counter } = state;
   const projectWindowRef = useRef(null);
 
   const { projectTitle, projectDescription, caseStudy, mainColor, background, textColor } = projectData[inView]
@@ -32,6 +33,20 @@ const Landing = ({ inView, view, setCurrentPage, m }) => {
     history.push(`/${page}`)
   }
 
+  const handleRightDir = () => {
+    handleSetState({ counter: counter + 1 })
+  }
+
+  const handleLeftDir = () => {
+    handleSetState({ counter: counter - 1 })
+  }
+
+  useEffect(() => {
+    if (counter >= 5) return handleSetState({ counter: 4 })
+    if (counter <= 0) return handleSetState({ counter: 1 })
+    setInview(counter)
+  }, [counter])
+
   useEffect(() => {
     let id = projectData[inView].id
     if (prevId > id) {
@@ -45,7 +60,7 @@ const Landing = ({ inView, view, setCurrentPage, m }) => {
   useEffect(() => {
     try {
       document.getElementById('projectInfo')
-        .onanimationend = e => {
+        .onanimationend = () => {
           handleSetState({ dir: 'reset' })
         }
     } catch (error) { }
@@ -57,18 +72,15 @@ const Landing = ({ inView, view, setCurrentPage, m }) => {
         <div onClick={() => handlePageClick('')}>Ephraim Sopuru</div>
         <div onClick={() => handlePageClick('about')}>About</div>
       </nav>
-
       <div className={cx.mobileProjectSelectorWrapper}>
         <MobileProjectSelector props={{ mainColor, projectTitle }} />
       </div>
-
       <div
         ref={projectWindowRef}
         className={cx.MobileProjectWindowWrapper}
       >
         <MobileProjectWindow />
       </div>
-
       <div id='projectInfo' className={`${cx.projectInfo} ${dir === 'down' && cx.up} ${dir === 'up' && cx.down}`}>
         <h1 style={{ color: mainColor }} className={cx.projectTitle}>{toSentenceCase(projectTitle)}</h1>
         <p style={{ color: textColor }} className={cx.projectDescription}>
@@ -77,13 +89,14 @@ const Landing = ({ inView, view, setCurrentPage, m }) => {
         <div onClick={() => handlePageClick(caseStudy)} className={cx.projectLink}>
           Open case study{m ? 'true' : 'false'}
         </div>
+        <div className={cx.dirBtn}>
+          <i onClick={handleLeftDir} className="fas fa-angle-left"></i>
+          <i onClick={handleRightDir} className="fas fa-angle-right"></i>
+        </div>
       </div>
-
       <div style={{ background: mainColor }} className={cx.sideScroll}></div>
       <div className={cx.smallScreen}></div>
-
       <div className={`${cx.overlay} ${view && cx.show}`}></div>
-
       <div className={cx.projectSelectorWrapper}>
         <ProjectSelector props={{ mainColor, projectTitle }} />
       </div>

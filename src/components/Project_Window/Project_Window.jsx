@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -7,14 +8,19 @@ import cx from './Project_Window.module.css';
 
 
 const ProjectWindow = ({ inview, view }) => {
-  
+  const domMountRef = useRef(false);
+
   const history = useHistory();
   const handleProjectClick = (id) => {
     history.push(`/project/${id}`)
   }
 
   useEffect(() => {
-    document.getElementById(`project${inview}`).scrollIntoView()
+    if (domMountRef.current) {
+      let x = document.getElementById(`project${inview}`).getBoundingClientRect().top;
+      document.getElementById('project-window').scrollBy(0, x - 100)
+    }
+    domMountRef.current = true;
   }, [inview])
 
   return (
