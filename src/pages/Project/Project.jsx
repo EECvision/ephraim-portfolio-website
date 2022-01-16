@@ -34,7 +34,8 @@ const Project = ({ setCurrentPage, setMount }) => {
   const cardRef = useRef(null);
   const titleRef = useRef(null);
   const containerRef = useRef(null);
-  const history = useHistory()
+  const domMountRef = useRef(false);
+  const history = useHistory();
 
   const handleSetState = (obj) => {
     setState(state => ({ ...state, ...obj }))
@@ -147,12 +148,16 @@ const Project = ({ setCurrentPage, setMount }) => {
   }, [scroll])
 
   useEffect(() => {
-    let id = calcView(projectContents, -100)
-    if (activeContentId !== id) handleSetState({ activeContentId: id })
-    if (projectContents["1"] > 60) {
-      handleSetState({ activeContentId: "0" })
-      handleSetState({ contentId: 0 })
+    if (domMountRef.current) {
+      let id = calcView(projectContents, -200)
+      console.log(id);
+      if (activeContentId !== id) handleSetState({ activeContentId: id })
+      if (projectContents["1"] > 60) {
+        handleSetState({ activeContentId: "0" })
+        handleSetState({ contentId: 0 })
+      }
     }
+    domMountRef.current = true
   }, [projectContents])
 
   useEffect(() => {

@@ -29,11 +29,21 @@ const Welcome = ({ inView, view, mount, setMount, setInview }) => {
   const domMountRef = useRef(null);
 
   const getTilt = () => {
-
     return 'tiltN';
   }
 
+  function wheelEvent(e) {
+    console.log(e.wheelDelta);
+    if (e.wheelDelta > 0) {
+      setCounter(c => c - 1)
+    } else {
+      setCounter(c => c + 1)
+    }
+  }
+
   useEffect(() => {
+    document.getElementById("root")
+    .addEventListener('wheel', wheelEvent)
     if (!mount) {
       handleSetState({ build: false, show: true })
     } else {
@@ -61,17 +71,6 @@ const Welcome = ({ inView, view, mount, setMount, setInview }) => {
   }, [view])
 
   useEffect(() => {
-    let body = document.getElementById("root");
-    body.onwheel = (e) => {
-      if (e.wheelDelta > 0) {
-        setCounter(c => c - 1)
-      } else {
-        setCounter(c => c + 1)
-      }
-    }
-  }, [])
-
-  useEffect(() => {
     if (counter > 35) {
       setWheelId(w => w >= 4 ? w : w + 1)
       setCounter(0)
@@ -81,11 +80,6 @@ const Welcome = ({ inView, view, mount, setMount, setInview }) => {
     }
     setInview(wheelId ? wheelId : inView)
   }, [counter])
-
-  useEffect(() => {
-    console.log('wheelId: ', wheelId);
-  }, [wheelId])
-
 
   return (
     <div className={cx.container}>
@@ -116,12 +110,12 @@ const Welcome = ({ inView, view, mount, setMount, setInview }) => {
           <ProjectWindow />
         </div>
       </div>
-      {/* <button style={{ position: 'fixed', zIndex: '100', top: '6em', left: '2em' }} onClick={() => { setCounter(0); setWheelId(1) }}> clear counter</button> */}
+      {/* <button style={{ position: 'fixed', zIndex: '100', top: '6em', right: '2em' }} onClick={handleScrollStop}> clear counter</button> */}
     </div>
   )
 }
 
-// : show || !mount ? cx.tiltN : cx.test
+//  show || !mount ? cx.tiltN : cx.test
 
 const mapStateToProps = createStructuredSelector({
   inView: selectInview,

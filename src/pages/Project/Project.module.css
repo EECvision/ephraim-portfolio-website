@@ -70,8 +70,8 @@
 
 
 .card {
-  width: 42vw;
-  height: 28vw;
+  width: 40em;
+  height: 28em;
   position: absolute;
   background: pink;
   transform: rotateY(-30deg) translateX(260px) translateY(0);
@@ -147,7 +147,6 @@
   height: 100%;
   z-index: 10;
   transform: translateX(100%);
-  border: 1px solid gray;
 }
 
 .swiper.swipeOpen {
@@ -270,11 +269,6 @@
     padding: 1em 3em;
   }
 
-  .card {
-    width: 64vw;
-    height: 36vw;
-  }
-
   .contentWrapper {
     padding: 2em 7em;
   }
@@ -285,9 +279,13 @@
 }
 
 @media screen and (max-width: 1024px) {
+
+
   .card {
     position: static;
     margin-bottom: 2em;
+    width: 40em;
+    height: 20em;  
   }
 
   .projectTitle {
@@ -318,8 +316,9 @@
 
 @media screen and (max-width: 768px) {  
   .card {
-    width: 84vw;
-    height: 64vw;
+    width: 100%;
+    max-width: 90%;
+    height: 20em;  
   }
 
   .contentWrapper {

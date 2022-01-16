@@ -1,3 +1,6 @@
+html {
+  font-size: 1rem;
+}
 .App {
   display: flex;
   align-items: center;
@@ -12,6 +15,7 @@
   margin: 0;
   padding: 0;
   scroll-behavior: smooth;
+  list-style-type: none;
 }
 
 /* width */

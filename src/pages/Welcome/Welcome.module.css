@@ -143,6 +143,7 @@
 }
 
 .projectWindow.tilt {
+  transform: rotateX(30deg) translateX(10vw) rotateY(0deg);
   animation: tilt 850ms both;
 }
 
@@ -156,8 +157,9 @@
 }
 
 @keyframes tiltN {
-  0% {transform: rotateX(5deg) translateX(10vw) rotateY(0deg);}
-  100% {transform: rotateX(0) translateX(20vw) rotateY(-30deg);}
+  0% {transform: rotateX(5deg) translateX(20vw) rotateY(0deg);}
+  70% {transform: rotateX(0) translateX(10vw) rotateY(-20deg);}
+  100% {transform: rotateX(0) translateX(20vw) rotateY(-40deg);}
 }
 
 .projectWindow.center {

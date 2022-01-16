@@ -18,6 +18,9 @@
   background-image: url('https://assets.justinmind.com/wp-content/uploads/2019/07/ios-ui-design-custom-components.png');
   transition: all 650ms;
   animation: breath 4s alternate infinite;
+
+  filter: unset;
+  width: 40vw;
 }
 
 .project.active {
