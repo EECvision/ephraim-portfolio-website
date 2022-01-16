@@ -166,6 +166,7 @@
     border-radius: 0.35em;
     cursor: pointer;
     font-size: 2rem;
+    color: rgb(94, 84, 84);
   }
 
   .projectTitle {
@@ -203,5 +204,12 @@
 
   .sideScroll {
     width: 8px;
+  }
+  
+  .dirBtn {
+    bottom: -2em;
+    padding: 0 2em;
+    justify-content: center;
+    gap: 2em;
   }
 }
