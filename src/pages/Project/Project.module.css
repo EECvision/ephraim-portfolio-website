@@ -177,7 +177,8 @@
   display: block;
   width: 100%;
   white-space: nowrap;
-  border: 1px solid red;
+  border: 1px solid gray;
+  cursor: pointer;
 }
 
 .navItem.active {
