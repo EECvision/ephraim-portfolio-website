@@ -2,11 +2,11 @@ import pageActionTypes from "./page.types"
 
 const INITIAL_STATE = {
   currentPage: 'home',
-  activeProject: '1',
   inview: 1,
   view: false,
   welcomeScreen: true,
-  mount: false
+  mount: true,
+  reload: true
 }
 
 const pageReducer = (state = INITIAL_STATE, action) => {
@@ -15,11 +15,6 @@ const pageReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         currentPage: action.payload
-      }
-    case pageActionTypes.SET_ACTIVE_PROJECT:
-      return {
-        ...state,
-        activeProject: action.payload
       }
     case pageActionTypes.SET_INVIEW:
       return {
@@ -39,7 +34,12 @@ const pageReducer = (state = INITIAL_STATE, action) => {
     case pageActionTypes.SET_MOUNT: 
       return {
         ...state,
-        mount: true
+        mount: action.payload
+      }
+    case pageActionTypes.SET_RELOAD:
+      return {
+        ...state,
+        reload: action.payload
       }
     default:
       return state

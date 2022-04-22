@@ -5,11 +5,6 @@ export const setCurrentPage = page => ({
   payload: page
 })
 
-export const setActiveProject = projectId => ({
-  type: pageActionTypes.SET_ACTIVE_PROJECT,
-  payload: projectId
-})
-
 export const setInview = projectId => ({
   type: pageActionTypes.SET_INVIEW,
   payload: projectId
@@ -25,6 +20,12 @@ export const setWelcomeScreen = state => ({
   payload: state
 })
 
-export const setMount = () => ({
-  type: pageActionTypes.SET_MOUNT
+export const setMount = state => ({
+  type: pageActionTypes.SET_MOUNT,
+  payload: state
+})
+
+export const setReload = state => ({
+  type: pageActionTypes.SET_RELOAD,
+  payload: state
 })

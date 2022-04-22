@@ -7,11 +7,6 @@ export const selectCurrentPage = createSelector (
   page => page.currentPage
 )
 
-export const selectActiveProject = createSelector(
-  [selectPage],
-  page => page.activeProject
-)
-
 export const selectInview = createSelector(
   [selectPage],
   page => page.inview
@@ -30,4 +25,9 @@ export const selectWelcomeScreen = createSelector(
 export const selectMount = createSelector(
   [selectPage],
   page => page.mount
+)
+
+export const selectReload = createSelector(
+  [selectPage],
+  page => page.reload
 )

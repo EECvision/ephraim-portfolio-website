@@ -1,3 +1,6 @@
+html {
+  font-size: 1rem;
+}
 .App {
   display: flex;
   align-items: center;
@@ -12,4 +15,34 @@
   margin: 0;
   padding: 0;
   scroll-behavior: smooth;
+  list-style-type: none;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: inherit;
+  height: inherit;
+  width: 6px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  /* border-radius: 5px; */
+  background: #F1F1F1;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #C1C1C1; 
+  /* border-radius: 5px; */
+}
+
+::-webkit-scrollbar-corner {
+  background: #F1F1F1; 
+  /* border-radius: 5px; */
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #b4b4b4; 
 }

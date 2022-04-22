@@ -1,0 +1,58 @@
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: space-between;
+}
+
+.wrapper img {
+  width: 1em;
+}
+
+.heading {
+  border-top: 1px solid gray;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  padding: 0.5em 0;
+}
+
+.title {
+  display: flex;
+  gap: 2em;
+  font-family: serif;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+}
+
+.description {
+  overflow: hidden;
+  transition: all 650ms;
+  max-height: 0;
+  padding-left: 4em;
+  margin-bottom: 1em;
+}
+
+.description.show {
+  max-height: 20em;
+}
+
+.description.hide {
+  max-height: 0em;
+}
+
+.toggleIcon {
+}
+
+@media screen and (max-width: 480px) {
+  .title {
+    font-size: 1rem;
+  }
+}

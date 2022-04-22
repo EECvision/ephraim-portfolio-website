@@ -1,16 +1,15 @@
 import React, { useEffect, useState, useRef } from "react"
 import { connect } from "react-redux";
-import { createStructuredSelector } from "reselect";
 import { calcView, toSentenceCase } from "../../components/utils";
-import { selectActiveProject } from "../../state/page/page.selector";
 import cx from './Project.module.css';
 import projectData from '../../state/DATA.json';
 import { useHistory } from "react-router-dom";
 import { getProject } from "./Project_Script";
 import { useParams } from "react-router-dom";
-import { setCurrentPage } from "../../state/page/page.actions";
+import { setCurrentPage, setMount } from "../../state/page/page.actions";
+import useWidth from "../../components/Hooks/useWidth";
 
-const Project = ({ setCurrentPage }) => {
+const Project = ({ setCurrentPage, setMount }) => {
   const params = useParams();
   const { projectTitle, mainColor } = projectData[params.id]
   const [state, setState] = useState({
@@ -18,7 +17,7 @@ const Project = ({ setCurrentPage }) => {
     back: false,
     close: false,
     contentId: 0,
-    activeContentId: 0,
+    activeContentId: "0",
     projectContents: {
       "1": 0,
       "2": 0,
@@ -30,11 +29,13 @@ const Project = ({ setCurrentPage }) => {
   });
   const { center, back, close, projectContents, contentId, activeContentId } = state;
   const [scroll, setScroll] = useState(0);
+  const { width } = useWidth();
 
   const cardRef = useRef(null);
   const titleRef = useRef(null);
   const containerRef = useRef(null);
-  const history = useHistory()
+  const domMountRef = useRef(false);
+  const history = useHistory();
 
   const handleSetState = (obj) => {
     setState(state => ({ ...state, ...obj }))
@@ -73,6 +74,7 @@ const Project = ({ setCurrentPage }) => {
   }
 
   const handlePageClick = (page) => {
+    setMount(false)
     handleSetState({ back: true })
     setCurrentPage(page === "about" ? "project" : "home")
     setTimeout(() => {
@@ -107,9 +109,7 @@ const Project = ({ setCurrentPage }) => {
             handleSetState({ home: true })
           }
         }
-    } catch (error) {
-      console.log('componentDidMount');
-    }
+    } catch (error) { }
   }, [])
 
   useEffect(() => {
@@ -119,27 +119,45 @@ const Project = ({ setCurrentPage }) => {
     }
     const getOffset = () => {
       let container = containerRef.current;
-      let clientHeight = container.clientHeight;
-      if (clientHeight - scroll < 150) return true;
+      let scrollTop = container.scrollTop
+      let scrollHeight = container.scrollHeight
+      let clientHeight = container.clientHeight
+      if (scrollHeight - scrollTop < clientHeight + (0.3 * clientHeight)) return true;
       return false
     }
-    titleRef.current.style.transform = `translateY(${-(getScroll() / 100 * 100)}px)`
-    cardRef.current.style.transform = `
-      rotateY(${-(getScroll() / 80) * 30}deg) 
-      translateX(${(getScroll() / 80) * 320}px) 
-    `
+
+    if (width > 1024) {
+      titleRef.current.style.transform = `translateY(${-(getScroll() / 100 * 100)}px)`
+      cardRef.current.style.transform = `
+        rotateY(${-(getScroll() / 80) * 30}deg) 
+        translateX(${(getScroll() / 80) * 320}px) 
+        translateY(${(getScroll() / 1) * 0}px)
+      `
+    } else {
+      titleRef.current.style.transform = `translateY(${-(getScroll() / 100 * 100)}px)`
+      cardRef.current.style.transform = `
+        rotateY(${(getScroll() / 1) * 0}deg) 
+        translateX(${(getScroll() / 1) * 0}px) 
+        translateY(${(getScroll() / 100) * 100}px) 
+      `
+    }
+
     document.getElementById("contentNav").style.opacity = (getScroll() / 100) * 1
     document.getElementById("routeBtn").style.display = getOffset() ? 'flex' : 'none'
 
   }, [scroll])
 
   useEffect(() => {
-    let id = calcView(projectContents, -100)
-    if (activeContentId !== id) handleSetState({ activeContentId: id })
-    if (projectContents["1"] > 260) {
-      handleSetState({ activeContentId: 0 })
-      handleSetState({ contentId: 0 })
+    if (domMountRef.current) {
+      let id = calcView(projectContents, -200)
+      console.log(id);
+      if (activeContentId !== id) handleSetState({ activeContentId: id })
+      if (projectContents["1"] > 60) {
+        handleSetState({ activeContentId: "0" })
+        handleSetState({ contentId: 0 })
+      }
     }
+    domMountRef.current = true
   }, [projectContents])
 
   useEffect(() => {
@@ -158,8 +176,10 @@ const Project = ({ setCurrentPage }) => {
     <div ref={containerRef} onScroll={handlePageScroll} className={`${cx.container}`}>
       <div className={cx.innerText}>Ephraim</div>
       <div id="swipe" style={{ background: mainColor }} className={`${cx.swiper} ${back && cx.swipeOpen} ${close && cx.swipeClose}`}></div>
-      <nav className={cx.nav}>
-        <div onClick={() => handlePageClick('')}>Back</div>
+      <nav style={activeContentId !== "0" ? { color: 'black' } : {}} className={cx.nav}>
+        <div onClick={() => handlePageClick('')}>
+          <i className="fas fa-arrow-left"></i> <span>back home</span>
+        </div>
         <div onClick={() => handlePageClick('about')}>About</div>
       </nav>
 
@@ -170,7 +190,9 @@ const Project = ({ setCurrentPage }) => {
           <div ref={titleRef} className={`${cx.projectTitle} ${center && cx.center}`}>{toSentenceCase(projectTitle)}</div>
         </div>
         <div id="transparent" className={cx.transparent}>
-          <div onClick={() => handleSetState({ contentId: 1 })} className={cx.arrowDown}>arrow down</div>
+          <div onClick={() => handleSetState({ contentId: 1 })} className={cx.arrowDown}>
+            <i className="fas fa-arrow-down"></i>
+          </div>
         </div>
 
         <div className={cx.contentWrapper}>
@@ -220,7 +242,8 @@ const Project = ({ setCurrentPage }) => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  setCurrentPage: page => dispatch(setCurrentPage(page))
+  setCurrentPage: page => dispatch(setCurrentPage(page)),
+  setMount: state => dispatch(setMount(state))
 })
 
 export default connect(null, mapDispatchToProps)(Project)
