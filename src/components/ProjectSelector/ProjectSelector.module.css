@@ -49,6 +49,7 @@
   overflow: hidden;
   border-radius: 0.5em;
   white-space: nowrap;
+  transition: background 850ms;
 }
 
 .expand {

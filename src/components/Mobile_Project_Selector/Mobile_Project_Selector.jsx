@@ -6,40 +6,30 @@ import { selectInview } from '../../state/page/page.selector';
 import cx from './Mobile_Project_Selector.module.css';
 
 
-const MobileProjectSelector = ({setInview, inview, props: { projectTitle, mainColor } }) => {
+const MobileProjectSelector = ({setInview, props: { id, mainColor } }) => {
 
   const handleClick = id => {
     setInview(id)
   }
 
-  useEffect(()=> {
-    console.log(inview);
-  },[inview])
-
   return (
     <div className={cx.container}>
       <div
         onMouseOver={() => handleClick(1)}
-        style={projectTitle === 'esperanto' ? { background: mainColor } : {}}
+        style={id === 1 ? { background: mainColor } : {}}
         className={cx.selector}>
       </div>
 
       <div
         onMouseOver={() => handleClick(2)}
-        style={projectTitle === 'ueno' ? { background: mainColor } : {}}
+        style={id === 2 ? { background: mainColor } : {}}
         className={cx.selector}>
       </div>
 
 
       <div
         onMouseOver={() => handleClick(3)}
-        style={projectTitle === 'iv-skaya' ? { background: mainColor } : {}}
-        className={cx.selector}>
-      </div>
-
-      <div
-        onMouseOver={() => handleClick(4)}
-        style={projectTitle === 'snicksnack' ? { background: mainColor } : {}}
+        style={id === 3 ? { background: mainColor } : {}}
         className={cx.selector}>
       </div>
     </div>
