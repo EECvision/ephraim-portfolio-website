@@ -1,38 +1,35 @@
 {
   "1": {
     "id": 1,
-    "projectTitle": "esperanto",
-    "projectDescription": "My year long journey around the world to shine a light on creatives from 16 different countries.",
+    "projectTitle": "Genadrop",
+    "projectDescription": "Generate all combinations from your art assets, preview and edit meta data, upload to ipfs, mint, and list to multiple blockchains with NO CODE.",
     "caseStudy": "project/1",
     "background": "#FFFFFF",
-    "mainColor": "#FE3448",
-    "textColor": "#0D0D0D"
+    "accent": "#2D3748",
+    "mainColor": "#00B39E",
+    "textColor": "#2D3748",
+    "link": "https://www.genadrop.com/"
   },
   "2": {
     "id": 2,
-    "projectTitle": "ueno",
-    "projectDescription": "I worked on client projects for companies like Redbull, Uber and Oculus, as well as the agency’s own brand.",
+    "projectTitle": "Commehub",
+    "projectDescription": "A social E-commerce app that aims to streamline the bulk-buying experience through a seamless and social processes of adding, voting and paying for products on the app.",
     "caseStudy": "project/2",
-    "background": "#7AB9E0",
-    "mainColor": "#FFF794",
-    "textColor": "#FFFFFF"
+    "background": "#00D1FF",
+    "accent": "2D3748",
+    "mainColor": "#FFFFFF",
+    "textColor": "#2D3748",
+    "link": ""
   },
   "3": {
     "id": 3,
-    "projectTitle": "iv-skaya",
-    "projectDescription": "With Russian photographer Elena Iv-Skaya, I created a portfolio that matches her rich and colorful style.",
+    "projectTitle": "Prosafe",
+    "projectDescription": "A mobile application that tracks the safety of protesters, alerts protesting friends of imminent dangers and also help endangered protesters call out for help.",
     "caseStudy": "project/3",
-    "background": "#FFD900",
-    "mainColor": "#FFF6E7",
-    "textColor": "#FFFFFF"
-  },
-  "4": {
-    "id": 4,
-    "projectTitle": "snicksnack",
-    "projectDescription": "Designing a new way to talk with close friends through audio and video aiming to build better friendships.",
-    "caseStudy": "project/4",
-    "background": "#F27DB5",
-    "mainColor": "#66FFDE",
-    "textColor": "#FFFFFF"
+    "background": "#FFFFFF",
+    "accent": "2D3748",
+    "mainColor": "#1ADC8A",
+    "textColor": "#2D3748",
+    "link": ""
   }
 }

@@ -1,0 +1,87 @@
+.container {
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgb(0, 0, 0, 0.75);
+  z-index: 10;
+  display: none;
+  animation: breath-in 650ms;
+}
+
+@keyframes breath-in {
+  from {
+    transform: scale(0.9) translateY(-1em);
+  }
+
+  to {
+    transform: scale(1) translateY(0);
+  }
+}
+
+.container.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card {
+  width: 32em;
+  height: 32em;
+  border-radius: 50%;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.card h1 {
+  margin-bottom: 1em;
+  font-size: 2.2rem;
+  color: #2D3748;
+}
+
+.card .btn {
+  padding: 1em 3em;
+  border-radius: 0.5rem;
+  background: #2D3748;
+  color: white;
+  cursor: pointer;
+  transition: all 300ms;
+  font-size: 1rem;
+}
+
+.card .btn:hover {
+  background: #1c222d;
+}
+
+.card img {
+  width: 8em;
+  height: 8em;
+  display: block;
+}
+
+@media screen and (max-width: 768px) {
+  .card img {
+    width: 4em;
+    height: 4em;
+    display: block;
+  }
+
+  .card {
+    width: 18em;
+    height: 18em;
+  }
+  
+  .card h1 {
+    font-size: 1.2rem;
+  }
+
+  .card .btn {
+    font-size: 0.85rem;
+    padding: 0.75em 1.5em;
+    border-radius: 0.25em;
+  }
+}

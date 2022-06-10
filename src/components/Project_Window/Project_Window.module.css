@@ -1,4 +1,5 @@
 .container {
+  padding-top: 2em;
   width: auto;
   display: flex;
   flex-direction: column;
@@ -6,24 +7,22 @@
   justify-content: flex-start;
   gap: 2vw;
   cursor: pointer;
+  transition: transform 1s;
 }
 
 .project {
+  width: 40vw;
   height: 28vw;
-  filter: blur(3px);
-  -webkit-filter: blur(3px);
   background-position: center;
   background-size: cover;
-  background-image: url('https://assets.justinmind.com/wp-content/uploads/2019/07/ios-ui-design-custom-components.png');
   transition: all 650ms;
   animation: breath 4s alternate infinite;
   filter: unset;
-  width: 40vw;
 }
 
 .project.active {
   filter: unset;
-  width: 40vw;
+  /* width: 42vw; */
 }
 
 .project.active.viewMode {

@@ -47,7 +47,7 @@
   z-index: 1000000;
   padding: 0 4em;
   margin-top: 2em;
-  color: white;
+  color: rgb(233, 233, 233);
 }
 
 .nav div {
@@ -73,11 +73,10 @@
   width: 40em;
   height: 28em;
   position: absolute;
-  background: pink;
+  background: transparent;
   transform: rotateY(-30deg) translateX(260px) translateY(0);
   background-position: center;
   background-size: cover;
-  background-image: url('https://assets.justinmind.com/wp-content/uploads/2019/07/ios-ui-design-custom-components.png');
   transition: all 650ms;
 }
 
@@ -106,8 +105,8 @@
   background: transparent;
   padding: 0.5em;
   cursor: pointer;
-  border: 2px solid white;
-  color: white;
+  border: 2px solid rgb(233, 233, 233);
+  color: rgb(233, 233, 233);
   height: 3em;
   width: 3em;
   display: flex;
@@ -133,7 +132,7 @@
   font-size: calc(2rem + 7vw);
   font-weight: 900;
   font-family: serif;
-  color: white;
+  color: rgb(233, 233, 233);
 }
 
 .projectTitle.center {
@@ -213,7 +212,7 @@
 }
 
 .navItem.active {
-  background: white;
+  background: rgb(233, 233, 233);
 }
 
 .backToTop {

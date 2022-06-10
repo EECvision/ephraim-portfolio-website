@@ -12,9 +12,13 @@ import projectData from "../../state/DATA.json";
 import ProjectWindow from "../../components/Project_Window/Project_Window";
 import { setInview, setMount } from "../../state/page/page.actions";
 import { useWheel } from "@use-gesture/react";
+import ComingSoon from "../../components/coming-soon/coming-soon";
 
 const Welcome = ({ inView, view, mount, setMount, setInview }) => {
-  const [reset, setReset] = useState(false);
+  const homeWrapperRef = useRef(null);
+  const projectWindowRef = useRef(null);
+  const domMountRef = useRef(null);
+  const run = useRef(null);
   const [wheelId, setWheelId] = useState(1);
   const [state, setState] = useState({
     build: false,
@@ -28,32 +32,39 @@ const Welcome = ({ inView, view, mount, setMount, setInview }) => {
     setState((state) => ({ ...state, ...obj }));
   };
 
-  const homeWrapperRef = useRef(null);
-  const projectWindowRef = useRef(null);
-  const domMountRef = useRef(null);
-
   const getTilt = () => {
     return "tiltN";
   };
 
+  const handleSlideUp = () => {
+    setWheelId((sc) => (sc >= 3 ? sc : (sc += 1)));
+  };
+
+  const handleSlideDown = () => {
+    setWheelId((sc) => (sc <= 1 ? sc : (sc -= 1)));
+  };
+
   const bind = useWheel(({ wheeling, movement: [, y] }) => {
-    if (!reset) {
-      if((y < 10 && y > 0) || (y > -10 && y < 0)) return
-      setTimeout(() => {
-        if (wheeling && y > 0) {
-          setWheelId((w) => (w >= 4 ? w : w + 1));
-        }
-        if (wheeling && y < 0) {
-          setWheelId((w) => (w <= 1 ? w : w - 1));
-        }
-      }, 10);
-      setReset(true)
+    console.log(run.current);
+
+    if (y > 0 && run.current) {
+      handleSlideUp();
+      run.current = false;
+    } else if (y < 0 && run.current) {
+      handleSlideDown();
+      run.current = false;
     }
 
     if (!wheeling) {
-      setReset(false)
+      run.current = true;
+      console.log("run: ", run.current);
+      console.log({ wheeling });
     }
   });
+
+  useEffect(() => {
+    run.current = true;
+  }, []);
 
   useEffect(() => {
     if (!mount) {
@@ -80,7 +91,6 @@ const Welcome = ({ inView, view, mount, setMount, setInview }) => {
     domMountRef.current = true;
   }, [view]);
 
-
   useEffect(() => {
     if (window.innerWidth <= 1200) return;
     setInview(wheelId ? wheelId : inView);
@@ -88,6 +98,7 @@ const Welcome = ({ inView, view, mount, setMount, setInview }) => {
 
   return (
     <div className={cx.container} {...bind()}>
+      <ComingSoon active={show && mount}/>
       <div className={cx.homepage}>
         <div className={cx.homeContentWrapper}>
           <div className={cx.nameContainer}>
@@ -114,7 +125,6 @@ const Welcome = ({ inView, view, mount, setMount, setInview }) => {
       </div>
 
       <div
-        id="project-window"
         ref={projectWindowRef}
         className={`${cx.projectWindow} ${show && cx[getTilt()]} ${
           view ? cx.center : cancelAnimation ? cx.side : ""

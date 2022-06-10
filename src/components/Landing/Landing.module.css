@@ -8,6 +8,7 @@
   justify-content: flex-start;
   position: relative;
   overflow: hidden;
+  transition: background 850ms;
 }
 
 .nav {
@@ -44,21 +45,21 @@
 }
 
 .projectInfo.up {
-  animation: up 500ms forwards;
+  animation: up 850ms forwards;
 }
 
 .projectInfo.down {
-  animation: down 500ms both;
+  animation: down 850ms both;
 }
 
 @keyframes up {
-  0%{transform: translateY(-50px); opacity: 0;}
-  100%{transform: translateY(0px); opacity: 1;}
+  0%{transform: translateY(-50px);}
+  100%{transform: translateY(0px);}
 }
 
 @keyframes down {
-  0%{transform: translateY(50px); opacity: 0;}
-  100%{transform: translateY(0px); opacity: 1;}
+  0%{transform: translateY(50px);}
+  100%{transform: translateY(0px);}
 }
 
 .projectTitle {
@@ -79,6 +80,9 @@
 .projectLink {
   font-weight: bold;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .sideScroll {
@@ -87,6 +91,7 @@
   top: 0;
   left: 0;
   position: absolute;
+  transition: background 650ms;
 }
 
 .projectSelectorWrapper {
@@ -156,10 +161,13 @@
   .dirBtn {
     position: absolute;
     width: 100%;
+    bottom: 2em;
+    left: 0;
     font-size: 1rem;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
+    gap: 2em;
   }
 
   .dirBtn > i {
@@ -207,9 +215,6 @@
   }
   
   .dirBtn {
-    bottom: -2em;
     padding: 0 2em;
-    justify-content: center;
-    gap: 2em;
   }
 }
