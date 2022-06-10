@@ -10,7 +10,7 @@ import { useHistory } from "react-router-dom";
 import { setCurrentPage, setInview } from "../../state/page/page.actions";
 import MobileProjectWindow from "../Mobile_Project_Window/Mobile_Project_Window";
 import MobileProjectSelector from "../Mobile_Project_Selector/Mobile_Project_Selector";
-import linkIcon from '../../assets/icon-link.svg';
+import linkIcon from "../../assets/icon-link.svg";
 
 const Landing = ({ inView, setInview, view, setCurrentPage, m }) => {
   const [state, setState] = useState({
@@ -25,7 +25,7 @@ const Landing = ({ inView, setInview, view, setCurrentPage, m }) => {
   const {
     projectTitle,
     projectDescription,
-    caseStudy,
+    link,
     mainColor,
     background,
     textColor,
@@ -98,12 +98,9 @@ const Landing = ({ inView, setInview, view, setCurrentPage, m }) => {
         <p style={{ color: textColor }} className={cx.projectDescription}>
           {projectDescription}
         </p>
-        <div
-          onClick={() => handlePageClick(caseStudy)}
-          className={cx.projectLink}
-        >
+        <a href={link} className={cx.projectLink} target="_blank" rel="noreferrer">
           <span>Open case study</span> <img src={linkIcon} alt="" />
-        </div>
+        </a>
       </div>
       <div style={{ background: mainColor }} className={cx.sideScroll}></div>
       <div className={cx.smallScreen}></div>

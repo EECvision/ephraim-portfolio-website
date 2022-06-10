@@ -7,7 +7,8 @@
     "background": "#FFFFFF",
     "accent": "#2D3748",
     "mainColor": "#00B39E",
-    "textColor": "#2D3748"
+    "textColor": "#2D3748",
+    "link": "https://www.genadrop.com/"
   },
   "2": {
     "id": 2,
@@ -17,7 +18,8 @@
     "background": "#00D1FF",
     "accent": "2D3748",
     "mainColor": "#FFFFFF",
-    "textColor": "#2D3748"
+    "textColor": "#2D3748",
+    "link": ""
   },
   "3": {
     "id": 3,
@@ -27,6 +29,7 @@
     "background": "#FFFFFF",
     "accent": "2D3748",
     "mainColor": "#1ADC8A",
-    "textColor": "#2D3748"
+    "textColor": "#2D3748",
+    "link": ""
   }
 }
