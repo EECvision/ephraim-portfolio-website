@@ -2,8 +2,11 @@ import { connect } from "react-redux";
 import { setInview, setView } from "../../state/page/page.actions";
 import { useState } from "react";
 import cx from "./ProjectSelector.module.css";
+import projectData from "../../state/DATA.json";
+
 
 const ProjectSelector = ({ setInview, setView, props }) => {
+  console.log({props});
   const { mainColor, id } = props;
 
   const [expand, setExpand] = useState(false);
@@ -33,7 +36,7 @@ const ProjectSelector = ({ setInview, setView, props }) => {
         onMouseEnter={handleMouseEnter}
       >
         <div onMouseOver={() => handleMouseOver(1)} className={cx.drawWrapper}>
-          <div className={`${cx.text} ${showText && cx.show}`}>esperanto</div>
+          <div className={`${cx.text} ${showText && cx.show}`}>{projectData[1].projectTitle}</div>
           <div
             style={id === 1 ? { background: mainColor } : {}}
             className={`${cx.draw} ${expand && cx.expand} ${cx._1}`}
@@ -41,7 +44,7 @@ const ProjectSelector = ({ setInview, setView, props }) => {
         </div>
 
         <div onMouseOver={() => handleMouseOver(2)} className={cx.drawWrapper}>
-          <div className={`${cx.text} ${showText && cx.show}`}>ueno</div>
+          <div className={`${cx.text} ${showText && cx.show}`}>{projectData[2].projectTitle}</div>
           <div
             style={id === 2 ? { background: mainColor } : {}}
             className={`${cx.draw} ${expand && cx.expand} ${cx._2}`}
@@ -49,7 +52,7 @@ const ProjectSelector = ({ setInview, setView, props }) => {
         </div>
 
         <div onMouseOver={() => handleMouseOver(3)} className={cx.drawWrapper}>
-          <div className={`${cx.text} ${showText && cx.show}`}>iv-skaya</div>
+          <div className={`${cx.text} ${showText && cx.show}`}>{projectData[3].projectTitle}</div>
           <div
             style={id === 3 ? { background: mainColor } : {}}
             className={`${cx.draw} ${expand && cx.expand} ${cx._3}`}

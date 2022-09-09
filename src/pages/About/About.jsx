@@ -11,6 +11,7 @@ import {
 import cx from "./About.module.css";
 import workspaceImg from "../../assets/workspace.png";
 import resume from "../../assets/Buchi.pdf";
+import buchiImg from "../../assets/buchi.png";
 
 const About = ({ inView, currentPage, setMount }) => {
   const [view, setView] = useState(false);
@@ -83,12 +84,12 @@ const About = ({ inView, currentPage, setMount }) => {
       <div className={`${cx.aboutContainer} ${view && cx.view}`}>
         <section className={cx.profile}>
           <div className={cx.imageContainer}>
-            <img src="/assets/sop.png" alt="" />
+            <img src={buchiImg} alt="" />
           </div>
 
           <div className={cx.info}>
             <h1 className={cx.hello}>Hello,</h1>
-            <p className={cx.name}>I’m Ephraim</p>
+            <p className={cx.name}>I’m Buchi</p>
             <p className={cx.about}>
               I’m a product and graphics designer. <br />
               As a product designer, I’m passionate about creating interactive,

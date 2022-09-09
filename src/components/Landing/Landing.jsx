@@ -77,7 +77,7 @@ const Landing = ({ inView, setInview, view, setCurrentPage, m }) => {
   return (
     <div id="landing" style={{ background: background }} className={cx.landing}>
       <nav className={cx.nav}>
-        <div onClick={() => handlePageClick("")}>Ephraim Sopuru</div>
+        <div onClick={() => handlePageClick("")}>Buchi Ephraim</div>
         <div onClick={() => handlePageClick("about")}>About</div>
       </nav>
       <div className={cx.mobileProjectSelectorWrapper}>

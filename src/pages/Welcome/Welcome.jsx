@@ -102,7 +102,7 @@ const Welcome = ({ inView, view, mount, setMount, setInview }) => {
       <div className={cx.homepage}>
         <div className={cx.homeContentWrapper}>
           <div className={cx.nameContainer}>
-            <p className={`${cx.name} ${build && cx.slipIn}`}>Ephraim Sopuru</p>
+            <p className={`${cx.name} ${build && cx.slipIn}`}>Buchi Ephraim</p>
             <p className={`${cx.role} ${build && cx.slipIn}`}>
               Interaction Designer
             </p>

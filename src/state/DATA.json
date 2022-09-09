@@ -2,11 +2,11 @@
   "1": {
     "id": 1,
     "projectTitle": "Genadrop",
-    "projectDescription": "Generate all combinations from your art assets, preview and edit meta data, upload to ipfs, mint, and list to multiple blockchains with NO CODE.",
+    "projectDescription": "GenaDrop is a no-code tool for artists to create, mint, and sell their generative art as NFTs across multiple blockchains.",
     "caseStudy": "project/1",
     "background": "#FFFFFF",
     "accent": "#2D3748",
-    "mainColor": "#00B39E",
+    "mainColor": "#0B96FF",
     "textColor": "#2D3748",
     "link": "https://www.genadrop.com/"
   },
@@ -23,13 +23,13 @@
   },
   "3": {
     "id": 3,
-    "projectTitle": "Prosafe",
-    "projectDescription": "A mobile application that tracks the safety of protesters, alerts protesting friends of imminent dangers and also help endangered protesters call out for help.",
+    "projectTitle": "Franklin.M",
+    "projectDescription": "Franklin Myrtle collection is a web3 Dapp that allows users to easily connect their web3 wallets to mint community NFTs, bid on auctions and learn more about the fashion icon Franklin.",
     "caseStudy": "project/3",
     "background": "#FFFFFF",
     "accent": "2D3748",
-    "mainColor": "#1ADC8A",
+    "mainColor": "#DD980D",
     "textColor": "#2D3748",
-    "link": ""
+    "link": "https://franklinmyrtle.xyz/"
   }
 }
