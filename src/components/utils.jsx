@@ -4,8 +4,8 @@ import genadropImg from "../assets/genadrop.png";
 
 export const mapImageToId = {
   0: genadropImg,
-  1: commehubImg,
-  2: prosafeImg,
+  1: prosafeImg,
+  2: commehubImg,
 };
 
 export const toSentenceCase = str => {

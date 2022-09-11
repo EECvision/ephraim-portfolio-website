@@ -11,7 +11,7 @@ import useWidth from "../../components/Hooks/useWidth";
 
 const Project = ({ setCurrentPage, setMount }) => {
   const params = useParams();
-  const { projectTitle, mainColor } = projectData[params.id];
+  const { projectTitle, mainColor, textColor } = projectData[params.id];
   const [state, setState] = useState({
     center: false,
     back: false,
@@ -187,7 +187,7 @@ const Project = ({ setCurrentPage, setMount }) => {
       <div className={cx.innerText}>Ephraim</div>
       <div
         id="swipe"
-        style={{ background: mainColor }}
+        style={{ background: params.id === "3" ? textColor : mainColor }}
         className={`${cx.swiper} ${back && cx.swipeOpen} ${
           close && cx.swipeClose
         }`}
@@ -197,7 +197,7 @@ const Project = ({ setCurrentPage, setMount }) => {
         className={cx.nav}
       >
         <div onClick={() => handlePageClick("")}>
-          <i className="fas fa-arrow-left"></i> <span>back home</span>
+          <i className="fas fa-arrow-left"></i> <span>Home</span>
         </div>
         <div onClick={() => handlePageClick("about")}>About</div>
       </nav>
@@ -205,7 +205,7 @@ const Project = ({ setCurrentPage, setMount }) => {
       <div className={`${cx.wrapper} ${close && cx.hide}`}>
         <div className={cx.fixed}>
           <div
-            style={{ background: mainColor }}
+            style={{ background: params.id === "3" ? textColor : mainColor }}
             className={`${cx.bg} ${center && cx.center}`}
           ></div>
           <div
@@ -240,7 +240,7 @@ const Project = ({ setCurrentPage, setMount }) => {
                 activeContentId === "1" && cx.active
               }`}
             >
-              nav test nav 1
+              Nav 1
             </div>
             <div
               onClick={() => handleSetState({ contentId: 2 })}
@@ -248,7 +248,7 @@ const Project = ({ setCurrentPage, setMount }) => {
                 activeContentId === "2" && cx.active
               }`}
             >
-              nav 2
+              Nav 2
             </div>
             <div
               onClick={() => handleSetState({ contentId: 3 })}
@@ -256,7 +256,7 @@ const Project = ({ setCurrentPage, setMount }) => {
                 activeContentId === "3" && cx.active
               }`}
             >
-              nav 3
+              Nav 3
             </div>
             <div
               onClick={() => handleSetState({ contentId: 4 })}
@@ -264,7 +264,7 @@ const Project = ({ setCurrentPage, setMount }) => {
                 activeContentId === "4" && cx.active
               }`}
             >
-              nav 4
+              Nav 4
             </div>
             <div
               onClick={() => handleSetState({ contentId: 5 })}
@@ -272,7 +272,7 @@ const Project = ({ setCurrentPage, setMount }) => {
                 activeContentId === "5" && cx.active
               }`}
             >
-              nav 5
+              Nav 5
             </div>
             <div
               onClick={() => handleSetState({ contentId: 6 })}
@@ -280,28 +280,28 @@ const Project = ({ setCurrentPage, setMount }) => {
                 activeContentId === "6" && cx.active
               }`}
             >
-              nav 6
+              Nav 6
             </div>
             <div className={cx.backToTop} onClick={handleScrollTop}>
-              back to top
+              Back to top
             </div>
 
             <div className={cx.routeBtn}>
               <div onClick={handlePrev} className={cx.prev}>
-                prev
+                Prev
               </div>
               <div onClick={handleNext} className={cx.next}>
-                next
+                Next
               </div>
             </div>
           </div>
 
           <div id="routeBtn" className={`${cx.routeBtn} ${cx.out}`}>
             <div onClick={handlePrev} className={cx.prev}>
-              prev
+              Prev
             </div>
             <div onClick={handleNext} className={cx.next}>
-              next
+              Next
             </div>
           </div>
         </div>

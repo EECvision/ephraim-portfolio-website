@@ -57,8 +57,6 @@ const Welcome = ({ inView, view, mount, setMount, setInview }) => {
 
     if (!wheeling) {
       run.current = true;
-      console.log("run: ", run.current);
-      console.log({ wheeling });
     }
   });
 
